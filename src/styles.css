@@ -148,6 +148,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   margin: 0;
 }
 
+/* =========================
+   NAVBAR
+   ========================= */
+
 .nav {
   position: sticky;
   top: 0;
@@ -204,9 +208,94 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   gap: 10px;
 }
 
+/* Desktop vs mobile nav containers (used by your Navbar JSX) */
+.nav-desktop { display: flex; }
+.nav-mobile { display: none; }
+
+/* Hamburger button */
+.nav-hamburger {
+  border: 1px solid rgba(17, 19, 21, 0.14);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 14px;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+.hamburger-lines {
+  display: grid;
+  gap: 4px;
+}
+
+.hamburger-lines span {
+  width: 18px;
+  height: 2px;
+  background: rgba(17, 19, 21, 0.75);
+  border-radius: 2px;
+  display: block;
+}
+
+/* Dropdown panel */
+.nav-mobile-menu {
+  margin-top: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(230, 226, 214, 0.85);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  display: grid;
+  gap: 12px;
+}
+
+.nav-mobile-links {
+  display: grid;
+  gap: 8px;
+}
+
+.nav-mobile-links a {
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  color: rgba(17, 19, 21, 0.9);
+}
+
+.nav-mobile-links a.active {
+  background: rgba(184, 154, 61, 0.12);
+  border: 1px solid rgba(184, 154, 61, 0.22);
+}
+
+.nav-mobile-cta {
+  display: grid;
+  gap: 10px;
+}
+
+/* Your original behavior: hide desktop links at <=860px,
+   but now we show hamburger instead */
 @media (max-width: 860px) {
   .nav-links { display: none; }
+  .nav-cta { display: none; }
+
+  .nav-desktop { display: none !important; }
+  .nav-mobile { display: block; }
+
+  .nav-inner { height: 64px; }
+
+  /* Optional if you add <span className="brand-text"> */
+  .brand-text {
+    font-size: 14px;
+    line-height: 1.1;
+  }
+
+  .brand-mark {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+  }
 }
+
+/* =========================
+   FOOTER
+   ========================= */
 
 .footer {
   border-top: 1px solid rgba(230, 226, 214, 0.85);
@@ -223,6 +312,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width: 860px) {
   .footer-grid { grid-template-columns: 1fr; }
 }
+
+/* =========================
+   BUTTONS
+   ========================= */
 
 .btn {
   border: 1px solid rgba(17, 19, 21, 0.14);
@@ -250,6 +343,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   background: transparent;
   border: 1px solid rgba(184,154,61,0.3);
 }
+
+/* =========================
+   HERO
+   ========================= */
 
 .hero {
   padding: 78px 0 56px 0;
@@ -293,6 +390,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   color: rgba(17,19,21,0.9);
   font-weight: 600;
   font-size: 13px;
+
+  /* Small polish so it doesn't feel cramped */
+  margin-bottom: 10px;
 }
 
 .hero-actions {
@@ -301,6 +401,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   flex-wrap: wrap;
   margin-top: 18px;
 }
+
+/* =========================
+   FORMS
+   ========================= */
 
 .form {
   display: grid;
@@ -347,6 +451,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width: 720px) {
   .inline-row { grid-template-columns: 1fr; }
 }
+
+/* =========================
+   ANIMATION + SMALL UI
+   ========================= */
 
 .fade-in {
   animation: fadeIn 200ms ease-out both;
