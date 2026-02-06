@@ -1,52 +1,43 @@
-import { useEffect, useState } from "react";
+import React from "react";
+import { NavLink, Link } from "react-router-dom";
+import Container from "../components/Container.jsx";
+import Button from "./Button.jsx";
 
-export default function Navbar({ links }) {
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth >= 900) setOpen(false);
-    };
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  const goTo = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-    setOpen(false);
-  };
-
+export default function Navbar() {
   return (
-    <header className="navWrap">
-      <nav className="nav">
-        <button className="brand" onClick={() => goTo("home")} aria-label="Go home">
-          Advanced Civil Solutions
-        </button>
+    <header className="nav">
+      <Container>
+        <div className="nav-inner">
+          <Link to="/" className="brand" aria-label="Advanced Civil Solutions Home">
+            <span className="brand-mark" aria-hidden="true" />
+            <span>Advanced Civil Solutions</span>
+          </Link>
 
-        <button
-          className="hamburger"
-          aria-label="Open menu"
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
+          <nav className="nav-links" aria-label="Primary navigation">
+            <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
+              Home
+            </NavLink>
+            <NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")}>
+              About
+            </NavLink>
+            <NavLink to="/book-demo" className={({ isActive }) => (isActive ? "active" : "")}>
+              Book Demo
+            </NavLink>
+            <NavLink to="/contact" className={({ isActive }) => (isActive ? "active" : "")}>
+              Contact
+            </NavLink>
+          </nav>
 
-        <div className={`navLinks ${open ? "open" : ""}`}>
-          {links.map((l) => (
-            <button key={l.id} className="navLink" onClick={() => goTo(l.id)}>
-              {l.label}
-            </button>
-          ))}
-          <button className="navCta" onClick={() => goTo("contact")}>
-            Get a Quote
-          </button>
+          <div className="nav-cta">
+            <Button as={Link} to="/book-demo" variant="primary">
+              Book a Demo
+            </Button>
+            <Button as={Link} to="/contact" variant="ghost">
+              Contact
+            </Button>
+          </div>
         </div>
-      </nav>
+      </Container>
     </header>
   );
 }
