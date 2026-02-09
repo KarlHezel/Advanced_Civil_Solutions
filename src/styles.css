@@ -353,6 +353,71 @@ strong {
   color: rgba(17,19,21,0.78);
 }
 
+/* HERO: prevent mobile headline overflow */
+.hero h1,
+.hero .h1,
+.hero .hero-title {
+  max-width: 100%;
+  font-size: clamp(34px, 8.5vw, 58px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+
+  /* ensures long phrases never push outside */
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.hero,
+.hero .readable {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+body.menu-open { overflow: hidden; }
+
+.nav-backdrop{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 72px;     /* navbar height */
+  bottom: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 9998;
+}
+
+.nav-mobile-menu{
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  top: 72px;              /* adjust if your navbar height differs */
+  z-index: 9999;
+  max-height: calc(100vh - 72px - 12px);
+  overflow: auto;
+}
+
+/* Make CTA visually match the menu links */
+.nav-mobile-cta {
+  display: block;
+  margin: 0;          /* remove the extra separation */
+}
+
+.nav-mobile-cta .btn {
+  display: block;
+  width: 100%;
+  padding: 12px 12px;
+  border-radius: 12px;
+  justify-content: flex-start;
+}
+
+/* Keep it “link-like” but highlighted */
+.nav-mobile-cta .btn-primary {
+  background: rgba(184,154,61,0.12);
+  border: 1px solid rgba(184,154,61,0.22);
+  box-shadow: none;
+}
+
+
+
 /* =========================
    ABOUT PAGE
    ========================= */
@@ -517,13 +582,11 @@ strong {
    NAVBAR (Desktop + Mobile)
    ========================= */
 
-.nav {
+.nav{
   position: sticky;
   top: 0;
-  z-index: 50;
-  background: rgba(247,247,245,0.84);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(230,226,214,0.85);
+  z-index: 10000;          /* higher than backdrop + menu */
+  background: var(--bg);   /* or var(--surface) */
 }
 
 .nav-right {
@@ -605,11 +668,13 @@ strong {
 .nav-mobile { display: none; }
 
 .nav-hamburger {
+  position: relative;
   border: 1px solid rgba(1, 1, 1, 0.14);
   background: rgba(255,255,255,0.9);
   border-radius: 12px;
   padding: 10px;
   cursor: pointer;
+  z-index: 10001;
 }
 
 .hamburger-lines { display: inline-grid; gap: 4px; }
@@ -632,6 +697,25 @@ strong {
 
 .nav-mobile-links { display: grid; gap: 6px; }
 
+/* Base pill style — ALL items look the same */
+.nav-mobile-links a,
+.nav-mobile-cta .btn {
+  background: rgba(247,247,245,0.95);
+  border: 1px solid rgba(0,0,0,0.12);
+  color: rgba(0,0,0,0.92);
+  font-weight: 650;
+}
+
+/* Active page — subtle gold, not loud */
+.nav-mobile-links a.active {
+  background: rgba(184,154,61,0.14);
+  border-color: rgba(184,154,61,0.35);
+  color: rgba(0,0,0,0.95);
+}
+
+
+
+
 .nav-mobile-links a {
   padding: 12px 12px;
   border-radius: 12px;
@@ -641,7 +725,7 @@ strong {
 
 .nav-mobile-links a.active {
   background: rgba(184,154,61,0.12);
-  border: 1px solid rgba(184,154,61,0.22);
+  border-color: rgba(184,154,61,0.22);
 }
 
 .nav-mobile-cta {
@@ -922,6 +1006,7 @@ button:disabled {
     display: block;
     margin-top: 0.12em;
   }
+
 }
 
 
@@ -1049,3 +1134,20 @@ button:disabled {
 /* HOME: tighten end of page so footer feels connected */
 .home .segment-who { margin-bottom: 0; }
 .home.section { padding-bottom: 0; }
+/* FIX: stop Home hero from overflowing on mobile */
+@media (max-width: 720px) {
+  .h1-hero,
+  .h1-hero .hero-line-1 {
+    white-space: normal;     /* allow wrapping */
+  }
+
+  /* optional: keep your second line behavior clean */
+  .h1-hero .hero-break {
+    display: inline;         /* don't force a block break on mobile */
+  }
+}
+
+/* Safety: prevent any accidental horizontal scroll */
+html, body {
+  overflow-x: hidden;
+}

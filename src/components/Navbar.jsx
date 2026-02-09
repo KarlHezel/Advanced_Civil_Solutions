@@ -7,34 +7,47 @@ import Button from "./Button.jsx";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+
   const dropdownRef = useRef(null);
+  const hamburgerRef = useRef(null);
+
+  const closeMenu = () => setOpen(false);
+  const toggleMenu = () => setOpen((v) => !v);
 
   // Close menu when navigating
   useEffect(() => {
-    setOpen(false);
+    closeMenu();
   }, [location.pathname]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.classList.toggle("menu-open", open);
+    return () => document.body.classList.remove("menu-open");
+  }, [open]);
 
   // Close on Escape
   useEffect(() => {
     const onKeyDown = (e) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") closeMenu();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  // Close if you click outside the dropdown
+  // Close if you tap/click outside the dropdown
+  // IMPORTANT: ignore taps on the hamburger, or it will "close then immediately reopen"
   useEffect(() => {
     if (!open) return;
 
-    const onMouseDown = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setOpen(false);
-      }
+    const onPointerDown = (e) => {
+      const inMenu = dropdownRef.current?.contains(e.target);
+      const inHamburger = hamburgerRef.current?.contains(e.target);
+
+      if (!inMenu && !inHamburger) closeMenu();
     };
 
-    window.addEventListener("mousedown", onMouseDown);
-    return () => window.removeEventListener("mousedown", onMouseDown);
+    window.addEventListener("pointerdown", onPointerDown);
+    return () => window.removeEventListener("pointerdown", onPointerDown);
   }, [open]);
 
   return (
@@ -46,7 +59,8 @@ export default function Navbar() {
             <img src="/Logo.png" alt="Advanced Civil Solutions" className="brand-logo" />
             <span className="brand-text">Advanced Civil Solutions</span>
           </Link>
-          {/* Desktop: Links + CTA grouped together on the right */}
+
+          {/* Desktop: Links + CTA */}
           <div className="nav-right nav-desktop">
             <nav className="nav-links" aria-label="Primary navigation">
               <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
@@ -58,18 +72,23 @@ export default function Navbar() {
               </NavLink>
             </nav>
 
-            <Button as={Link} to="/book-consultation" variant="primary">
+            <Button
+              as={NavLink}
+              to="/book-consultation"
+              variant="primary"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
               Book a Consultation
             </Button>
+
           </div>
-
-
 
           {/* Mobile hamburger */}
           <button
+            ref={hamburgerRef}
             className="nav-hamburger nav-mobile"
             type="button"
-            onClick={() => setOpen((v) => !v)}
+            onClick={toggleMenu}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="nav-mobile-menu"
@@ -79,65 +98,64 @@ export default function Navbar() {
               <span />
               <span />
             </span>
-            {open ? (
-            // X icon
-            <svg viewBox="0 0 24 24" aria-hidden="true" className="nav-icon">
-              <path
-                d="M6 6l12 12M18 6L6 18"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-              />
-            </svg>
-          ) : (
-            // Hamburger icon
-            <svg viewBox="0 0 24 24" aria-hidden="true" className="nav-icon">
-              <path
-                d="M5 7h14M5 12h14M5 17h14"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-              />
-            </svg>
-          )}
 
+            {open ? (
+              // X icon
+              <svg viewBox="0 0 24 24" aria-hidden="true" className="nav-icon">
+                <path
+                  d="M6 6l12 12M18 6L6 18"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            ) : (
+              // Hamburger icon
+              <svg viewBox="0 0 24 24" aria-hidden="true" className="nav-icon">
+                <path
+                  d="M5 7h14M5 12h14M5 17h14"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            )}
           </button>
         </div>
 
-        {/* Mobile dropdown */}
+        {/* Mobile dropdown + backdrop */}
         {open && (
-          <div
-            id="nav-mobile-menu"
-            ref={dropdownRef}
-            className="nav-mobile-menu nav-mobile fade-in"
-            role="dialog"
-            aria-label="Mobile navigation"
-          >
-            <nav className="nav-mobile-links" aria-label="Mobile primary navigation">
-              <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
-                Home
-              </NavLink>
+          <>
+            {/* Backdrop */}
+            <div className="nav-backdrop" onClick={closeMenu} aria-hidden="true" />
 
-              <NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")}>
-                About
-              </NavLink>
+            {/* Menu panel */}
+            <div
+              id="nav-mobile-menu"
+              ref={dropdownRef}
+              className="nav-mobile-menu fade-in"
+              role="dialog"
+              aria-label="Mobile navigation"
+            >
+              <nav className="nav-mobile-links" aria-label="Mobile primary navigation">
+                <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
+                  Home
+                </NavLink>
 
-              <NavLink
-                to="/book-consultation"
-                className={({ isActive }) => (isActive ? "active" : "")}
-              >
-                Book Consultation
-              </NavLink>
-            </nav>
+                <NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")}>
+                  About
+                </NavLink>
+              </nav>
 
-            <div className="nav-mobile-cta">
-              <Button as={Link} to="/book-consultation" variant="primary">
-                Book a Consultation
-              </Button>
+              <div className="nav-mobile-cta">
+                <Button as={Link} to="/book-consultation" variant="primary" onClick={closeMenu}>
+                  Book a Consultation
+                </Button>
+              </div>
             </div>
-          </div>
+          </>
         )}
       </Container>
     </header>
