@@ -1,3 +1,5 @@
+// src/lib/validators.js
+
 export function isRequired(value) {
   return String(value ?? "").trim().length > 0;
 }
@@ -14,21 +16,33 @@ export function isValidPhone(phone) {
   return /^[+]?[\d\s().-]{7,}$/.test(v);
 }
 
-export function validateContact(values) {
+/**
+ * Baseline intake validation.
+ * Used for consultation/contact style modes (NO scheduling).
+ */
+export function validateIntake(values) {
   const errors = {};
-  if (!isRequired(values.name)) errors.name = "Name is required.";
-  if (!isRequired(values.company)) errors.company = "Company is required.";
-  if (!isRequired(values.email)) errors.email = "Email is required.";
+
+  if (!isRequired(values.name)) errors.name = "Enter your name.";
+  if (!isRequired(values.company)) errors.company = "Enter your organization.";
+
+  if (!isRequired(values.email)) errors.email = "Enter your email.";
   else if (!isValidEmail(values.email)) errors.email = "Enter a valid email address.";
-  if (!isRequired(values.phone)) errors.phone = "Phone number is required.";
+
+  if (!isRequired(values.phone)) errors.phone = "Enter your phone number.";
   else if (!isValidPhone(values.phone)) errors.phone = "Enter a valid phone number.";
-  if (!isRequired(values.comment)) errors.comment = "Comment is required.";
+
+  if (!isRequired(values.comment)) {
+    errors.comment = "Provide a brief objective or context.";
+  }
+
   return errors;
 }
 
-export function validateBooking(values) {
-  const errors = validateContact(values);
-  if (!isRequired(values.date)) errors.date = "Select a date.";
-  if (!isRequired(values.time)) errors.time = "Select a time.";
-  return errors;
+/**
+ * Legacy export for compatibility if you still import validateContact anywhere.
+ * You can remove this once you confirm nothing imports it.
+ */
+export function validateContact(values) {
+  return validateIntake(values);
 }
