@@ -1154,6 +1154,29 @@ button:disabled {
   padding-bottom: 120px;
  }
 
+ /* Mobile: reduce top space above "ADVANCED CIVIL SOLUTIONS" */
+@media (max-width: 720px) {
+  .home .segment-hero {
+    padding-top: 72px;   /* was clamp(120px, 14vh, 220px) */
+    padding-bottom: 72px;/* optional: keeps the hero from feeling huge */
+  }
+}
+
+/* Mobile: tighten the kicker + headline stack */
+@media (max-width: 720px) {
+  /* Pull the "ADVANCED CIVIL SOLUTIONS" kicker closer to the top */
+  .home .segment-hero .kicker {
+    margin-top: 0;
+  }
+
+  /* Reduce the gap between kicker and the big headline */
+  .home .segment-hero .h1,
+  .home .segment-hero .h1-hero {
+    margin-top: 6px;   /* was 10px */
+  }
+}
+
+
  .home .segment-how { 
   padding-top: 40px;
   padding-bottom: 120px;
