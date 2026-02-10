@@ -863,7 +863,8 @@ button:disabled {
 .segment {
   position: relative;
   border-radius: 22px;
-  padding: 40px 40px;
+  padding-top: 96px;
+  padding-bottom: 96px;
   margin: 26px 0;
   overflow: hidden;
 }
@@ -967,14 +968,6 @@ button:disabled {
   font-weight: 600;
 }
 
-/* if you use stat numbers in the proof strip */
-.statNum {
-  font-weight: 650;
-  letter-spacing: -0.01em;
-  font-size: 22px;
-  color: rgba(17,19,21,0.92);
-  margin-bottom: 6px;
-}
 
 /* Mobile stacking */
 @media (max-width: 900px) {
@@ -989,11 +982,15 @@ button:disabled {
 /* Keep first line glued together */
 .h1-hero .hero-line-1 {
   white-space: nowrap;
+  opacity: 0.92;
 }
 
 /* Default: small screens → ONE line */
 .h1-hero {
   white-space: nowrap;
+  font-size: clamp(38px, 5.2vw, 60px); /* was too aggressive */
+  line-height: 1.08;                  /* slightly more breathing room */
+  letter-spacing: -0.025em;           /* softer than before */
 }
 
 /* Wide screens → force the intentional break */
@@ -1002,9 +999,17 @@ button:disabled {
     white-space: normal;
   }
 
+/* Tablet-ish (iPad landscape included): force the intentional break */
+@media (min-width: 820px) and (max-width: 1180px) {
   .h1-hero .hero-break {
     display: block;
-    margin-top: 0.12em;
+    margin-top: 0.14em;
+  }
+}
+
+  .h1-hero .hero-break {
+    display: block;
+    margin-top: 0.15em;
   }
 
 }
@@ -1015,22 +1020,39 @@ button:disabled {
    ========================= */
 
 .home .proofStrip{
-  margin-top: 56px;
+  margin-top: 22px;
   width: min(980px, calc(100% - 32px));
   margin-left: auto;
   margin-right: auto;
-  box-shadow: 0 14px 34px rgba(17,19,21,0.06), inset 0 1px 0 rgba(255,255,255,0.65);
+  box-shadow: 0 18px 44px rgba(17,19,21,0.09), inset 0 1px 0 rgba(255,255,255,0.78);
+  position: relative;
 
   /* more “proof band” than “card” */
   background:
     radial-gradient(900px 240px at 20% 0%, rgba(184,154,61,0.10), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0.46));
-  border: 1px solid rgba(230,226,214,0.95);
+  border: 1px solid rgba(184,154,61,0.28); /* warmer, more premium */
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 14px 34px rgba(17, 19, 21, 0.06);
   backdrop-filter: blur(6px);
 }
+
+/* Credibility rail (subtle but powerful) */
+.home .proofStrip::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    rgba(184,154,61,0.90),
+    rgba(184,154,61,0.35),
+    transparent
+  );
+}
+
 
 .home .proofRow{
   display: grid;
@@ -1063,22 +1085,23 @@ button:disabled {
 /* Stat number (dominant) */
 .home .statNum{
   font-family: var(--font-serif);
-  font-weight: 650;
-  font-size: clamp(22px, 2.2vw, 32px);
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.01em;
   line-height: 1.05;
-  color: rgba(0,0,0,0.92);
+  color: rgba(0,0,0,0.96);
   margin-bottom: 6px;
 }
 
 /* Label (official) */
 .home .proofV{
-  font-family: var(--font-sans);
-  font-size: 12px;
-  letter-spacing: 0.12em;
+  font-weight: 650;
+  font-family: var(--font-serif);
+  font-size: 13px;
+  letter-spacing: 0.10em;
   text-transform: uppercase;
-  line-height: 1.35;
-  color: rgba(17,19,21,0.68);
+  line-height: 1.4;
+  color: rgba(17,19,21,0.78);
 }
 
 /* Optional: emphasize the first stat only */
@@ -1126,13 +1149,24 @@ button:disabled {
 
 /* HOME: remove extra space between hero and the next band */
 .home .segment-hero { margin-bottom: 0; }
-.home .segment-what { margin-top: 0; }
+.home .segment-what { 
+  padding-top: 40px;
+  padding-bottom: 120px;
+ }
+
+ .home .segment-how { 
+  padding-top: 40px;
+  padding-bottom: 120px;
+ }
 
 /* If you're using section-block on Home, neutralize it */
 .home .section-block { margin-top: 0; }
 
 /* HOME: tighten end of page so footer feels connected */
-.home .segment-who { margin-bottom: 0; }
+.home .segment-who { 
+  padding-top: 40px;
+  padding-bottom: 120px;
+ }
 .home.section { padding-bottom: 0; }
 /* FIX: stop Home hero from overflowing on mobile */
 @media (max-width: 720px) {
@@ -1144,6 +1178,7 @@ button:disabled {
   /* optional: keep your second line behavior clean */
   .h1-hero .hero-break {
     display: inline;         /* don't force a block break on mobile */
+    font-weight: 650;
   }
 }
 
@@ -1151,3 +1186,40 @@ button:disabled {
 html, body {
   overflow-x: hidden;
 }
+
+/* =========================
+   SCROLL FOCUS (Fade sections in/out)
+   ========================= */
+
+.scroll-focus {
+  opacity: 0.34;                 /* “faded out” sections */
+  transform: translateY(10px);    /* tiny lift (not flashy) */
+  transition:
+    opacity 520ms ease,
+    transform 520ms ease,
+    filter 520ms ease;
+  will-change: opacity, transform;
+}
+
+.scroll-focus.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  filter: none;
+}
+
+/* optional: very subtle blur for de-emphasis (keep tiny) */
+.scroll-focus:not(.is-active) {
+  filter: blur(0.25px);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-focus {
+    transition: none;
+    transform: none;
+    filter: none;
+    opacity: 1;
+  }
+}
+
+
