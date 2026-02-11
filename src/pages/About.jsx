@@ -19,7 +19,7 @@ function SBAFloat() {
 
       <div className="cert-badge">
         <img
-          src="/SBA.jpg"
+          src="/SBA.webp"
           alt="U.S. Small Business Administration — Service-Disabled Veteran-Owned Certified"
           loading="lazy"
         />

@@ -123,11 +123,15 @@ export default function Home() {
                   <div id="sba-sentinel" aria-hidden="true" />
 
                   <div className="cert-badge">
-                    <img
-                      src="/SBA.jpg"
-                      alt="U.S. Small Business Administration — Service-Disabled Veteran-Owned Certified"
-                      loading="lazy"
-                    />
+                  <img
+                    src="/SBA.webp"          // convert to webp if possible
+                    alt="U.S. Small Business Administration — Service-Disabled Veteran-Owned Certified"
+                    loading="eager"
+                    fetchpriority="high"
+                    decoding="async"
+                    width="98"
+                    height="98"
+                  />
                   </div>
                 </div>
               </div>
@@ -273,7 +277,7 @@ export default function Home() {
 
         <div className="cert-badge">
           <img
-            src="/SBA.jpg"
+            src="/SBA.webp"
             alt="U.S. Small Business Administration — Service-Disabled Veteran-Owned Certified"
             loading="lazy"
           />

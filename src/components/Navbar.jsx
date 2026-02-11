@@ -56,7 +56,16 @@ export default function Navbar() {
         <div className="nav-inner">
           {/* Brand */}
           <Link to="/" className="brand" aria-label="Advanced Civil Solutions Home">
-            <img src="/Logo.png" alt="Advanced Civil Solutions" className="brand-logo" />
+            <img
+              src="/Logo.webp"
+              alt="Advanced Civil Solutions"
+              className="brand-logo"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              width="120"
+              height="120"
+            />
             <span className="brand-text">Advanced Civil Solutions</span>
           </Link>
 
