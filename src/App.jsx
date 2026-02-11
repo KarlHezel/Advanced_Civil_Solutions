@@ -6,10 +6,12 @@ import Home from "./pages/Home.jsx";
 import About from "./pages/About.jsx";
 import BookConsultation from "./pages/BookConsultation.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import ScrollToTop from "./components/ScrollToTop";
 
 export default function App() {
   return (
     <div className="app-shell">
+      <ScrollToTop />
       <Navbar />
       <main className="main">
         <Routes>

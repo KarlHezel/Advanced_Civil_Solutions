@@ -72,7 +72,7 @@ export default function Home() {
                     <span className="hero-line-1">
                       Government Contracting Readiness — SDVOSB{" "}
                     </span>
-                    <span className="hero-break">quality by design. </span>
+                    <span className="hero-break">Quality By Design. </span>
                   </h1>
 
                   <p className="p">
