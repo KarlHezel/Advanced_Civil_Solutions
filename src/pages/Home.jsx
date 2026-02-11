@@ -27,28 +27,30 @@ export default function Home() {
     els.forEach((el) => obs.observe(el));
 
     // =========================
-    // SBA floating badge toggle
-    // Show floating SBA when in-flow SBA badge is NOT visible
+    // SBA floating badge trigger
+    // Show sticky when TOP of static SBA leaves viewport
     // =========================
-    const inflow = document.getElementById("sba-inflow-badge");
+    const sentinel = document.getElementById("sba-sentinel");
     const floating = document.getElementById("sba-float");
 
     let obsSBA = null;
 
-    if (inflow && floating) {
+    if (sentinel && floating) {
       obsSBA = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting) floating.classList.remove("is-visible");
-          else floating.classList.add("is-visible");
+          if (entry.isIntersecting) {
+            floating.classList.remove("is-visible");
+          } else {
+            floating.classList.add("is-visible");
+          }
         },
         {
-          threshold: 0.1,
-          // Optional: bring the floating in slightly earlier/later
-          // rootMargin: "-10% 0px -10% 0px",
+          threshold: 0,
+          rootMargin: "-60px 0px 0px 0px", // appears a bit earlier
         }
       );
 
-      obsSBA.observe(inflow);
+      obsSBA.observe(sentinel);
     }
 
     return () => {
@@ -61,7 +63,7 @@ export default function Home() {
     <section className="section home">
       {/* FULL-WIDTH HERO BAND */}
       <FadeIn>
-        <div className="hero-full segment segment-hero">
+        <div className="hero-full segment segment-hero scroll-focus">
           <Container>
             <div className="hero-full-inner">
               <div className="page-frame-left">
@@ -83,7 +85,6 @@ export default function Home() {
 
               {/* DELIVERY SNAPSHOT — divider + stats + certification */}
               <div>
-                {/* Center label with horizontal lines */}
                 <div className="section-divider" aria-hidden="true"></div>
 
                 {/* Credibility highlights */}
@@ -106,7 +107,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* SBA CERTIFICATION BLOCK (in-flow) */}
+                {/* SBA CERTIFICATION BLOCK (static / in-flow) */}
                 <div className="cert-block" aria-label="Federal certification">
                   <div className="cert-kicker">Federal certification</div>
 
@@ -118,8 +119,10 @@ export default function Home() {
                     Certified by the U.S. Small Business Administration
                   </p>
 
-                  {/* ✅ ID used as the observer trigger */}
-                  <div className="cert-badge" id="sba-inflow-badge">
+                  {/* 🔥 Sentinel: "top of SBA" trigger */}
+                  <div id="sba-sentinel" aria-hidden="true" />
+
+                  <div className="cert-badge">
                     <img
                       src="/SBA.jpg"
                       alt="U.S. Small Business Administration — Service-Disabled Veteran-Owned Certified"
@@ -247,16 +250,12 @@ export default function Home() {
               </Card>
             </div>
 
-            <div className="small" style={{ marginTop: 12 }}>
-              Veteran-led / Veteran-owned (if applicable). Documentation available upon
-              request.
-            </div>
+
           </div>
         </Container>
       </div>
 
-      {/* FLOATING CERTIFICATION BLOCK (bottom-right, follows scroll) */}
-      {/* ✅ Add id for JS hook, and CSS should hide unless .is-visible */}
+      {/* FLOATING CERTIFICATION BLOCK (bottom-right, fades in/out) */}
       <div
         className="cert-float"
         id="sba-float"
