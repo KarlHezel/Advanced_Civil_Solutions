@@ -6,6 +6,9 @@ import Card from "../components/Card.jsx";
 
 export default function Home() {
   useEffect(() => {
+    // =========================
+    // Scroll-focus fade behavior
+    // =========================
     const els = Array.from(document.querySelectorAll(".scroll-focus"));
 
     const obs = new IntersectionObserver(
@@ -22,52 +25,106 @@ export default function Home() {
     );
 
     els.forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
+
+    // =========================
+    // SBA floating badge toggle
+    // Show floating SBA when in-flow SBA badge is NOT visible
+    // =========================
+    const inflow = document.getElementById("sba-inflow-badge");
+    const floating = document.getElementById("sba-float");
+
+    let obsSBA = null;
+
+    if (inflow && floating) {
+      obsSBA = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) floating.classList.remove("is-visible");
+          else floating.classList.add("is-visible");
+        },
+        {
+          threshold: 0.1,
+          // Optional: bring the floating in slightly earlier/later
+          // rootMargin: "-10% 0px -10% 0px",
+        }
+      );
+
+      obsSBA.observe(inflow);
+    }
+
+    return () => {
+      obs.disconnect();
+      if (obsSBA) obsSBA.disconnect();
+    };
   }, []);
 
   return (
     <section className="section home">
-      {/* FULL-WIDTH HERO BAND (keep always prominent) */}
+      {/* FULL-WIDTH HERO BAND */}
       <FadeIn>
         <div className="hero-full segment segment-hero">
           <Container>
             <div className="hero-full-inner">
               <div className="page-frame-left">
                 <div className="readable stack">
-                  <div className="kicker">ADVANCED CIVIL SOLUTIONS</div>
-
                   <h1 className="h1 h1-hero">
                     <span className="hero-line-1">
-                      Government contracting readiness — built for{" "}
+                      Government Contracting Readiness — SDVOSB{" "}
                     </span>
-                    <span className="hero-break">quality by design.</span>
+                    <span className="hero-break">quality by design. </span>
                   </h1>
 
                   <p className="p">
-                    We help teams deliver clear, consistent work—with quality built in, not added later—so expectations are met and execution stays focused.
+                    We help teams deliver clear, consistent work—with quality built
+                    in, not added later—so expectations are met and execution stays
+                    focused.
                   </p>
-
-                  <div className="small">
-                    Built for small businesses entering federal work, primes managing suppliers, and teams looking to simplify and strengthen their operations.
-                  </div>
                 </div>
               </div>
 
-              <div className="proofStrip" aria-label="Credibility highlights">
-                <div className="proofRow">
-                  <div className="proofItem">
-                    <div className="statNum">1,000+</div>
-                    <div className="proofV">Total Awarded Contracts</div>
-                  </div>
+              {/* DELIVERY SNAPSHOT — divider + stats + certification */}
+              <div>
+                {/* Center label with horizontal lines */}
+                <div className="section-divider" aria-hidden="true"></div>
 
-                  <div className="proofItem">
-                    <div className="statNum">100+</div>
-                    <div className="proofV">Manufacturing Partners</div>
-                  </div>
+                {/* Credibility highlights */}
+                <div className="proofStrip" aria-label="Credibility highlights">
+                  <div className="proofRow">
+                    <div className="proofItem">
+                      <div className="statNum">1,000+</div>
+                      <div className="proofV">Total Awarded Contracts</div>
+                    </div>
 
-                  <div className="proofItem">
-                    <div className="statNum">30+</div>
-                    <div className="proofV">Years of Industry Experience</div>
+                    <div className="proofItem">
+                      <div className="statNum">100+</div>
+                      <div className="proofV">Manufacturing Partners</div>
+                    </div>
+
+                    <div className="proofItem">
+                      <div className="statNum">30+</div>
+                      <div className="proofV">Years of Industry Experience</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* SBA CERTIFICATION BLOCK (in-flow) */}
+                <div className="cert-block" aria-label="Federal certification">
+                  <div className="cert-kicker">Federal certification</div>
+
+                  <h3 className="cert-title">
+                    Service-Disabled Veteran-Owned Small Business (SDVOSB)
+                  </h3>
+
+                  <p className="cert-sub">
+                    Certified by the U.S. Small Business Administration
+                  </p>
+
+                  {/* ✅ ID used as the observer trigger */}
+                  <div className="cert-badge" id="sba-inflow-badge">
+                    <img
+                      src="/SBA.jpg"
+                      alt="U.S. Small Business Administration — Service-Disabled Veteran-Owned Certified"
+                      loading="lazy"
+                    />
                   </div>
                 </div>
               </div>
@@ -81,7 +138,9 @@ export default function Home() {
         <Container>
           <div className="page-frame-left">
             <div className="kicker section-kicker">WHAT WE DO</div>
-            <h2 className="h2">Operational support aligned to government expectations.</h2>
+            <h2 className="h2">
+              Operational support aligned to government expectations.
+            </h2>
 
             <p className="p" style={{ maxWidth: 820 }}>
               We install lightweight systems that make delivery easier to manage—and
@@ -140,7 +199,9 @@ export default function Home() {
               <Card>
                 <div className="stack">
                   <div className="card-title">Implement</div>
-                  <p className="card-body">Owners, workflows, templates, and control points.</p>
+                  <p className="card-body">
+                    Owners, workflows, templates, and control points.
+                  </p>
                 </div>
               </Card>
 
@@ -167,7 +228,9 @@ export default function Home() {
             <div className="grid grid-2" style={{ maxWidth: 980 }}>
               <Card>
                 <div className="stack">
-                  <div className="card-title">Small businesses entering federal work</div>
+                  <div className="card-title">
+                    Small businesses entering federal work
+                  </div>
                   <p className="card-body">
                     Understand expectations early and avoid expensive rework later.
                   </p>
@@ -185,10 +248,37 @@ export default function Home() {
             </div>
 
             <div className="small" style={{ marginTop: 12 }}>
-              Veteran-led / Veteran-owned (if applicable). Documentation available upon request.
+              Veteran-led / Veteran-owned (if applicable). Documentation available upon
+              request.
             </div>
           </div>
         </Container>
+      </div>
+
+      {/* FLOATING CERTIFICATION BLOCK (bottom-right, follows scroll) */}
+      {/* ✅ Add id for JS hook, and CSS should hide unless .is-visible */}
+      <div
+        className="cert-float"
+        id="sba-float"
+        aria-label="Federal certification (floating)"
+      >
+        <div className="cert-kicker">Federal Certification</div>
+
+        <h3 className="cert-title">
+          Service-Disabled Veteran-Owned Small Business (SDVOSB)
+        </h3>
+
+        <p className="cert-sub">
+          Certified by the U.S. Small Business Administration
+        </p>
+
+        <div className="cert-badge">
+          <img
+            src="/SBA.jpg"
+            alt="U.S. Small Business Administration — Service-Disabled Veteran-Owned Certified"
+            loading="lazy"
+          />
+        </div>
       </div>
     </section>
   );

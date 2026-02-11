@@ -379,7 +379,7 @@ body.menu-open { overflow: hidden; }
   position: fixed;
   left: 0;
   right: 0;
-  top: 72px;     /* navbar height */
+  top: 72px;    
   bottom: 0;
   background: rgba(0,0,0,0.35);
   z-index: 9998;
@@ -583,6 +583,8 @@ body.menu-open { overflow: hidden; }
    ========================= */
 
 .nav{
+  margin-top: 10px;
+  margin-bottom: 10px;
   position: sticky;
   top: 0;
   z-index: 10000;          /* higher than backdrop + menu */
@@ -614,10 +616,30 @@ body.menu-open { overflow: hidden; }
 }
 
 .brand-text {
-  font-weight: 400;
+  font-weight: 1000;
   font-family: var(--font-serif);
   color: var(--muted);
   display: inline-block;
+  font-size: 20px;           /* try 18–22 */
+  line-height: 1;
+}
+
+/* Gold dash under brand text */
+.brand-text::after {
+  content: "";
+  display: block;
+  width: 100%;              /* dash length */
+  height: 2px;
+  margin-top: 6px;
+
+  background: linear-gradient(
+    90deg,
+    rgba(184,154,61,0.9),
+    rgba(184,154,61,0.35),
+    transparent
+  );
+
+  border-radius: 2px;
 }
 
 .brand-mark {
@@ -944,116 +966,55 @@ button:disabled {
   .home .center-wrap { padding-left: 0; padding-right: 0; }
 }
 
-/* =========================
-   HOME — PROOF STRIP (CENTERED ONLY)
-   ========================= */
-
-
-.home .proofRow {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.home .proofItem {
-  padding: 14px 20px;
-  border-right: 1px solid rgba(230,226,214,0.85);
-}
-
-.home .proofItem:last-child { border-right: none; }
-
-.home .proofV {
-  color: rgba(17,19,21,0.74);   /* was ~0.68 */
-  line-height: 1.6;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-
-/* Mobile stacking */
-@media (max-width: 900px) {
-  .home .proofRow { grid-template-columns: 1fr; }
-  .home .proofItem {
-    border-right: none;
-    border-top: 1px solid rgba(230,226,214,0.85);
-  }
-  .home .proofItem:first-child { border-top: none; }
-}
-
-/* Keep first line glued together */
-.h1-hero .hero-line-1 {
-  white-space: nowrap;
-  opacity: 0.92;
-}
-
-/* Default: small screens → ONE line */
-.h1-hero {
-  white-space: nowrap;
-  font-size: clamp(38px, 5.2vw, 60px); /* was too aggressive */
-  line-height: 1.08;                  /* slightly more breathing room */
-  letter-spacing: -0.025em;           /* softer than before */
-}
-
-/* Wide screens → force the intentional break */
-@media (min-width: 1200px) {
-  .h1-hero {
-    white-space: normal;
-  }
-
-/* Tablet-ish (iPad landscape included): force the intentional break */
-@media (min-width: 820px) and (max-width: 1180px) {
-  .h1-hero .hero-break {
-    display: block;
-    margin-top: 0.14em;
-  }
-}
-
-  .h1-hero .hero-break {
-    display: block;
-    margin-top: 0.15em;
-  }
-
-}
-
 
 /* =========================
-   HOME — PROOF STRIP (Credibility highlights)
+   HOME — PROOF STRIP (Gradient Dividers Only)
    ========================= */
 
 .home .proofStrip{
-  margin-top: 22px;
-  width: min(980px, calc(100% - 32px));
+  margin-top: 0px;
+  width: min(1040px, calc(100% - 32px));
   margin-left: auto;
   margin-right: auto;
-  box-shadow: 0 18px 44px rgba(17,19,21,0.09), inset 0 1px 0 rgba(255,255,255,0.78);
-  position: relative;
 
-  /* more “proof band” than “card” */
-  background:
-    radial-gradient(900px 240px at 20% 0%, rgba(184,154,61,0.10), transparent 60%),
-    linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0.46));
-  border: 1px solid rgba(184,154,61,0.28); /* warmer, more premium */
+  background: radial-gradient(
+    140% 160% at 50% 40%,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(255, 255, 255, 0.85) 35%,
+    rgba(255, 255, 255, 0.55) 65%,
+    rgba(255, 255, 255, 0.15) 85%,
+    rgba(255, 255, 255, 0.00) 100%
+  );
+  backdrop-filter: blur(6px);              /* subtle glass polish */
+  border: none;
+  box-shadow: none;
+  border-radius: 28px;
+  overflow: visible;
+}
+
+.home .proofItem {
+  position: relative;
+  padding: 24px 28px;
   border-radius: 18px;
   overflow: hidden;
-  backdrop-filter: blur(6px);
 }
 
-/* Credibility rail (subtle but powerful) */
-.home .proofStrip::before{
+.home .proofItem::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    rgba(184,154,61,0.90),
-    rgba(184,154,61,0.35),
-    transparent
-  );
+  inset: 0;
+  background:
+    radial-gradient(
+      220px 120px at 30% 20%,
+      rgba(184,154,61,0.12),
+      transparent 35%
+    );
+  opacity: 0.8;
+  pointer-events: none;
 }
 
 
+/* Layout */
 .home .proofRow{
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1061,62 +1022,132 @@ button:disabled {
 
 /* Each cell */
 .home .proofItem{
-  padding: 18px 22px;
+  padding: 12px 18px;
   position: relative;
 }
 
-/* Softer separators */
+/* REMOVE any old borders */
 .home .proofItem:not(:last-child){
-  border-right: 1px solid rgba(230,226,214,0.75);
+  border-right: none;
 }
 
-/* Micro “cap line” at top of each cell for authority */
-.home .proofItem::before{
+/* Gradient divider (matches Federal Certification lines) */
+.home .proofItem:not(:last-child)::after{
   content: "";
   position: absolute;
-  left: 0;
   top: 0;
-  height: 2px;
-  width: 100%;
-  background: linear-gradient(90deg, rgba(184,154,61,0.55), transparent);
-  opacity: 0.55;
-}
+  right: 0;
+  bottom: 0;
+  width: 1px;
 
-/* Stat number (dominant) */
-.home .statNum{
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: 22px;
-  letter-spacing: -0.01em;
-  line-height: 1.05;
-  color: rgba(0,0,0,0.96);
-  margin-bottom: 6px;
-}
+  background: linear-gradient(
+    180deg,
+    rgba(184,154,61,0.95),
+    rgba(184,154,61,0.65),
+    rgba(230,226,214,0.9)
+  );
 
-/* Label (official) */
-.home .proofV{
-  font-weight: 650;
-  font-family: var(--font-serif);
-  font-size: 13px;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  line-height: 1.4;
-  color: rgba(17,19,21,0.78);
-}
-
-/* Optional: emphasize the first stat only */
-.home .proofItem:first-child .statNum{
-  color: rgba(184,154,61,0.88);
+  opacity: 0.95;
 }
 
 /* Mobile stacking */
 @media (max-width: 900px){
-  .home .proofRow{ grid-template-columns: 1fr; }
-  .home .proofItem:not(:last-child){
-    border-right: none;
-    border-bottom: 1px solid rgba(230,226,214,0.75);
+  .home .proofRow{
+    grid-template-columns: 1fr;
+  }
+
+  .home .proofItem:not(:last-child)::after{
+    right: auto;
+    left: 0;
+    top: auto;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(184,154,61,0.65),
+      rgba(230,226,214,0.95),
+      transparent
+    );
   }
 }
+
+/* =========================
+   HOME — PROOF STRIP (Stronger text + gold numbers)
+   ========================= */
+
+/* Numbers: gold + more dominant */
+.home .statNum{
+  font-family: var(--font-serif);
+  font-weight: 750;
+  font-size: clamp(28px, 3.4vw, 40px);  /* bigger */
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+
+  color: var(--gold);              /* ✅ gold */
+  margin-bottom: 6px;
+
+  /* tiny crispness boost for serif */
+  text-shadow: 0 1px 0 rgba(184,154,61,0.25);
+    position: relative;
+  z-index: 1;
+}
+
+
+/* Labels: more prominent + darker */
+.home .proofV {
+  font-family: var(--font-serif);
+  font-weight: 650;
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  color: rgba(0,0,0,0.9);
+
+  white-space: nowrap;     /* 🔥 keeps wording on one line */
+  display: inline-block;   /* 🔥 makes underline match text width */
+  position: relative;
+  padding-bottom: 14px;   /* space for the line */
+}
+
+/* Gold underline */
+.home .proofV::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+
+  width: 100%;           /* adjust length here */
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    var(--gold),
+    rgba(184,154,61,0.35),
+    transparent
+  );
+
+  border-radius: 2px;
+}
+
+
+.home .proofItem:first-child .statNum {
+  font-size: clamp(30px, 3.8vw, 44px);
+}
+
+
+/* Optional: tighten vertical rhythm so it reads like “one unit” */
+.home .proofItem{
+padding: 18px 24px;   /* was 12px */
+}
+
+
+/* =========================
+   HOME STRUCTURE TUNING
+   ========================= */
 
 /* Home section kicker: subordinate to "ADVANCED CIVIL SOLUTIONS" */
 .section-kicker{
@@ -1126,7 +1157,7 @@ button:disabled {
 }
 
 .section-kicker::before{
-  width: 18px; /* smaller line than main kicker */
+  width: 18px;
   opacity: 0.7;
 }
 
@@ -1139,76 +1170,73 @@ button:disabled {
   padding: 0;
 }
 
-/* add spacing back inside the band, not around it */
+/* add spacing back inside the band */
 .home .segment-what .page-frame-left,
 .home .segment-how .page-frame-left,
 .home .segment-who .page-frame-left{
-  padding-top: 40px;
+  padding-top: 0px;
   padding-bottom: 40px;
 }
 
-/* HOME: remove extra space between hero and the next band */
-.home .segment-hero { margin-bottom: 0; }
-.home .segment-what { 
-  padding-top: 40px;
-  padding-bottom: 120px;
- }
-
- /* Mobile: reduce top space above "ADVANCED CIVIL SOLUTIONS" */
-@media (max-width: 720px) {
-  .home .segment-hero {
-    padding-top: 72px;   /* was clamp(120px, 14vh, 220px) */
-    padding-bottom: 72px;/* optional: keeps the hero from feeling huge */
-  }
+/* HOME: remove extra space between hero and next band */
+.home .segment-hero { 
+  margin-bottom: 0;  
+  padding-top: 150px;   /* was 150px */
+  padding-bottom: 150px;
 }
 
-/* Mobile: tighten the kicker + headline stack */
+.home .segment-what { 
+  padding-top: 150px;
+  padding-bottom: 150px;
+}
+
+.home .segment-how { 
+  padding-top: 150px;
+  padding-bottom: 150px;
+}
+
+.home .segment-who { 
+  padding-top: 150px;
+  padding-bottom: 150px;
+}
+
+.home.section {
+  padding-bottom: 0;
+}
+
+/* Mobile hero adjustments */
 @media (max-width: 720px) {
-  /* Pull the "ADVANCED CIVIL SOLUTIONS" kicker closer to the top */
+
+  .home .segment-hero {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+
   .home .segment-hero .kicker {
     margin-top: 0;
   }
 
-  /* Reduce the gap between kicker and the big headline */
   .home .segment-hero .h1,
   .home .segment-hero .h1-hero {
-    margin-top: 6px;   /* was 10px */
+    margin-top: 6px;
   }
-}
 
-
- .home .segment-how { 
-  padding-top: 40px;
-  padding-bottom: 120px;
- }
-
-/* If you're using section-block on Home, neutralize it */
-.home .section-block { margin-top: 0; }
-
-/* HOME: tighten end of page so footer feels connected */
-.home .segment-who { 
-  padding-top: 40px;
-  padding-bottom: 120px;
- }
-.home.section { padding-bottom: 0; }
-/* FIX: stop Home hero from overflowing on mobile */
-@media (max-width: 720px) {
   .h1-hero,
   .h1-hero .hero-line-1 {
-    white-space: normal;     /* allow wrapping */
+    white-space: normal;
   }
 
-  /* optional: keep your second line behavior clean */
   .h1-hero .hero-break {
-    display: inline;         /* don't force a block break on mobile */
+    display: inline;
     font-weight: 650;
   }
 }
 
-/* Safety: prevent any accidental horizontal scroll */
+/* Safety: prevent horizontal scroll */
 html, body {
   overflow-x: hidden;
 }
+
 
 /* =========================
    SCROLL FOCUS (Fade sections in/out)
@@ -1245,4 +1273,254 @@ html, body {
   }
 }
 
+/* =========================
+   SBA CERTIFICATION BLOCK
+   ========================= */
 
+.cert-block {
+  width: 100%;
+  max-width: 300px;
+  margin: clamp(22px, 5vw, 52px) auto 0;  /* reduced proportionally */
+  text-align: center;
+
+  /* invisible container */
+  background: transparent;
+  border: none;
+  box-shadow: none;
+
+  padding: 0;              /* no “card-like” padding */
+}
+
+/* Federal label with lines */
+.cert-kicker {
+  display: inline-flex;    /* ✅ makes ::before/::after sit on the same line */
+  align-items: center;
+  gap: 8px;
+
+  font-family: var(--font-serif);
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(17,19,21,0.65);
+  margin-bottom: 6px;
+}
+
+.cert-kicker::before,
+.cert-kicker::after {
+  content: "";
+  height: 1px;
+  width: 42px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(184,154,61,0.65),
+    rgba(230,226,214,0.95),
+    transparent
+  );
+  opacity: 0.9;
+}
+
+/* Certification title */
+.cert-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: rgba(0,0,0,0.92);
+  margin: 0 0 3px;
+}
+
+/* Subtext */
+.cert-sub {
+  font-family: var(--font-serif);
+  font-size: 8px;
+  color: rgba(17,19,21,0.72);
+  margin: 0 0 8px;
+}
+
+/* Badge wrapper (keep this — it’s the only “surface” now) */
+.cert-badge {
+  width: 98px;
+  margin: 0 auto;
+  padding: 4px;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 6px 16px rgba(17,19,21,0.04);
+}
+
+.cert-badge img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+
+/* =========================
+   FLOATING CERTIFICATION — 50% SIZE
+   ========================= */
+
+.cert-float {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 9999;
+
+  width: 150px;              /* scaled down */
+  text-align: center;
+
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.cert-float.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.cert-float:hover {
+  transform: translateY(-2px);
+}
+
+/* Typography */
+.cert-float .cert-kicker {
+  display: flex;                 /* instead of inline-flex */
+  align-items: center;
+  justify-content: center;       /* force true centering */
+  gap: 6px;
+
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  margin-bottom: 4px;
+  opacity: 0.75;
+}
+
+/* Make the lines perfectly balanced */
+.cert-float .cert-kicker::before,
+.cert-float .cert-kicker::after {
+  content: "";
+  flex: 1;                       /* equal width on both sides */
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(184,154,61,0.65),
+    transparent
+  );
+}
+
+.cert-float .cert-title {
+  font-size: 8.5px;
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+
+.cert-float .cert-sub {
+  font-size: 7px;
+  opacity: 0.8;
+  margin-bottom: 6px;
+}
+
+/* Badge */
+.cert-float .cert-badge {
+  width: 55px;
+  margin: 0 auto;
+}
+
+/* =========================
+   MOBILE (scaled proportionally)
+   ========================= */
+
+@media (max-width: 900px) {
+  .cert-float {
+    width: 120px;          /* proportional shrink */
+    right: 14px;
+    bottom: 14px;
+  }
+
+  .cert-float .cert-kicker {
+    font-size: 6px;
+  }
+
+.cert-float .cert-title {
+  font-size: 8.5px;
+  line-height: 1.15;
+  margin-bottom: 1px;   /* tighten */
+}
+
+.cert-float .cert-sub {
+  font-size: 7px;
+  opacity: 0.8;
+  margin-bottom: 4px;   /* tighten */
+}
+
+.cert-float .cert-badge {
+  width: 55px;
+  margin: 2px auto 0 auto;   /* bring it closer */
+  padding: 0;                /* remove inherited padding */
+  background: transparent;   /* remove white card look */
+  border: none;
+  box-shadow: none;
+}
+
+.cert-float .cert-badge img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform: translateY(-2px);  /* optical alignment fix */
+}
+
+}
+
+
+/* =========================
+   Title break
+   ========================= */
+
+
+
+/* Keep first line glued together */
+.h1-hero .hero-line-1 {
+  white-space: nowrap;
+  opacity: 0.92;
+}
+
+/* Default: small screens → ONE line */
+.h1-hero {
+  white-space: nowrap;
+  font-size: clamp(38px, 5.2vw, 60px); /* was too aggressive */
+  line-height: 1.08;                  /* slightly more breathing room */
+  letter-spacing: -0.025em;           /* softer than before */
+}
+
+/* Wide screens → force the intentional break */
+@media (min-width: 1200px) {
+  .h1-hero {
+    white-space: normal;
+  }
+
+/* Tablet-ish (iPad landscape included): force the intentional break */
+@media (min-width: 820px) and (max-width: 1180px) {
+  .h1-hero .hero-break {
+    display: block;
+    margin-top: 0.14em;
+  }
+}
+
+  .h1-hero .hero-break {
+    display: block;
+    margin-top: 0.15em;
+  }
+
+}
