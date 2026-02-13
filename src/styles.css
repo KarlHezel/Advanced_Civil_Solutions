@@ -1,8 +1,3 @@
-/* =========================================================
-   00) FONTS
-   ========================================================= */
-
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap");
 
 /* =========================================================
    01) THEME TOKENS
@@ -931,6 +926,11 @@ button:disabled {
   padding-bottom: 96px;
   margin: 26px 0;
   overflow: hidden;
+}
+
+.segment:not(.segment-hero) {
+  content-visibility: auto;
+  contain-intrinsic-size: 900px;
 }
 
 .segment::before {
