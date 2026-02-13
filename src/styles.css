@@ -1,6 +1,12 @@
-/* styles.css */
+/* =========================================================
+   00) FONTS
+   ========================================================= */
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap");
+
+/* =========================================================
+   01) THEME TOKENS
+   ========================================================= */
 
 :root {
   --bg: #f7f7f5;
@@ -17,7 +23,6 @@
 
   --container: 1500px;
 
-  /* FONT SYSTEM */
   --font-sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
 
@@ -26,11 +31,16 @@
   background: var(--bg);
 }
 
+/* =========================================================
+   02) BASE RESET / ACCESSIBILITY
+   ========================================================= */
+
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 body { margin: 0; background: var(--bg); color: var(--text); }
 
 a { color: inherit; text-decoration: none; }
+
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -48,9 +58,14 @@ ul, ol {
   line-height: 1.65;
 }
 
-/* =========================
-   LAYOUT
-   ========================= */
+/* Safety: prevent horizontal scroll */
+html, body {
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   03) LAYOUT
+   ========================================================= */
 
 .app-shell {
   min-height: 100vh;
@@ -69,14 +84,14 @@ ul, ol {
 .section { padding: 24px 0; }
 @media (max-width: 720px) { .section { padding: 40px 0; } }
 
-/* =========================
-   UTILITIES
-   ========================= */
+/* =========================================================
+   04) UTILITIES
+   ========================================================= */
 
 .readable { max-width: 760px; }
 .stack { display: grid; gap: 12px; }
 
-/* Left aligned, but not "glued" to the left on wide screens */
+/* Left aligned, but not glued to the edge */
 .page-frame-left {
   max-width: 1120px;
   margin-right: auto;
@@ -84,27 +99,16 @@ ul, ol {
   padding-right: clamp(0px, 2vw, 48px);
 }
 
-/* Large desktop */
-@media (min-width: 1440px) {
-  .page-frame-left { max-width: 1280px; }
-}
+@media (min-width: 1440px) { .page-frame-left { max-width: 1280px; } }
+@media (min-width: 1800px) { .page-frame-left { max-width: 1400px; } }
 
-/* Ultra-wide */
-@media (min-width: 1800px) {
-  .page-frame-left { max-width: 1400px; }
-}
-
-/* Mobile: remove the extra gutter so it doesn't feel cramped */
 @media (max-width: 720px) {
-  .page-frame-left {
-    padding-left: 0;
-    padding-right: 0;
-  }
+  .page-frame-left { padding-left: 0; padding-right: 0; }
 }
 
-/* =========================
-   ANIMATION
-   ========================= */
+/* =========================================================
+   05) ANIMATION
+   ========================================================= */
 
 .fade-in { animation: fadeInUp 220ms ease-out both; }
 
@@ -113,9 +117,9 @@ ul, ol {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* =========================
-   TYPOGRAPHY
-   ========================= */
+/* =========================================================
+   06) TYPOGRAPHY
+   ========================================================= */
 
 body {
   font-family: var(--font-serif);
@@ -152,8 +156,6 @@ h1, h2, h3, p, ul, ol, li {
 
 .h1 {
   font-family: var(--font-serif);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
   font-weight: 600;
   font-size: clamp(34px, 4.6vw, 54px);
   line-height: 1.15;
@@ -163,8 +165,6 @@ h1, h2, h3, p, ul, ol, li {
 
 .h2 {
   font-family: var(--font-serif);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
   font-weight: 600;
   font-size: clamp(26px, 3.2vw, 36px);
   line-height: 1.2;
@@ -172,33 +172,13 @@ h1, h2, h3, p, ul, ol, li {
   margin: 0 0 12px 0;
 }
 
-
-
-
-
 .h3 {
   font-family: var(--font-serif);
   font-weight: 600;
   font-size: clamp(18px, 2.2vw, 24px);
   line-height: 1.2;
   letter-spacing: -0.01em;
-  margin: 0;
 }
-
-/* =========================
-   HOME — Section Lead Statements
-   ========================= */
-
-.home .segment-what .h2,
-.home .segment-how .h2,
-.home .segment-who .h2 {
-  font-size: clamp(36px, 5vw, 58px);  /* noticeably larger */
-  font-weight: 650;
-  letter-spacing: -0.03em;
-  line-height: 1.12;
-  margin-bottom: 20px;
-}
-
 
 .p {
   font-family: var(--font-serif);
@@ -206,7 +186,6 @@ h1, h2, h3, p, ul, ol, li {
   color: var(--muted);
   font-size: 18px;
   line-height: 1.75;
-  margin: 0;
 }
 
 strong {
@@ -222,7 +201,6 @@ strong {
   border-left: 2px solid rgba(184,154,61,0.14);
 }
 
-/* Mobile: reduce indent so it doesn't feel squished */
 @media (max-width: 720px) {
   .p { font-size: 17px; line-height: 1.75; }
   .readable .p { margin-left: 0; padding-left: 10px; }
@@ -245,9 +223,9 @@ strong {
 
 .about-h3 { margin-top: 4px; color: rgba(17,19,21,0.90); }
 
-/* =========================
-   DIVIDERS
-   ========================= */
+/* =========================================================
+   07) DIVIDERS
+   ========================================================= */
 
 .hr-gold {
   height: 1px;
@@ -262,9 +240,9 @@ strong {
   margin: 22px 0;
 }
 
-/* =========================
-   GRIDS
-   ========================= */
+/* =========================================================
+   08) GRIDS
+   ========================================================= */
 
 .grid { display: grid; gap: 16px; }
 
@@ -275,9 +253,9 @@ strong {
 .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
 
-/* =========================
-   CARDS / SURFACES
-   ========================= */
+/* =========================================================
+   09) CARDS / SURFACES
+   ========================================================= */
 
 .surface {
   background: var(--surface);
@@ -285,7 +263,6 @@ strong {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
-
 
 .card {
   padding: 18px;
@@ -316,7 +293,6 @@ strong {
   font-weight: 400;
   color: var(--muted);
   line-height: 1.65;
-  margin: 0;
 }
 
 .card-inset {
@@ -330,121 +306,388 @@ strong {
 .bullets li { font-family: var(--font-serif); font-weight: 400; }
 .bullets li strong { font-weight: 600; }
 
-/* =========================
-   HERO (Home page)
-   ========================= */
-
-.hero { padding: 24px 0; }
-
-.hero-inner {
-  display: grid;
-  grid-template-columns: 1.4fr 0.9fr;
-  gap: 16px;
-  align-items: start;
-}
-
-@media (max-width: 900px) {
-  .hero-inner { grid-template-columns: 1fr; }
-}
-
-.hero-panel { padding: 22px; }
-
-.hero-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 16px;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  font-weight: 650;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 10px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(184,154,61,0.28);
-  background: rgba(184,154,61,0.08);
-  color: rgba(17,19,21,0.78);
-}
-
-/* HERO: prevent mobile headline overflow */
-.hero h1,
-.hero .h1,
-.hero .hero-title {
-  max-width: 100%;
-  font-size: clamp(34px, 8.5vw, 58px);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-
-  /* ensures long phrases never push outside */
-  overflow-wrap: anywhere;
-  word-break: normal;
-}
-
-.hero,
-.hero .readable {
-  padding-left: 16px;
-  padding-right: 16px;
-}
+/* =========================================================
+   10) NAVBAR + MOBILE MENU
+   ========================================================= */
 
 body.menu-open { overflow: hidden; }
 
+/* Backdrop for mobile menu */
 .nav-backdrop{
   position: fixed;
   left: 0;
   right: 0;
-  top: 72px;    
+  top: 72px;
   bottom: 0;
   background: rgba(0,0,0,0.35);
   z-index: 9998;
 }
 
+/* Mobile menu container (overlay) */
 .nav-mobile-menu{
   position: fixed;
   left: 12px;
   right: 12px;
-  top: 72px;              /* adjust if your navbar height differs */
+  top: 72px;
   z-index: 9999;
   max-height: calc(100vh - 72px - 12px);
   overflow: auto;
+
+  margin-top: 10px;
+  border: 1px solid rgba(230,226,214,0.85);
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+  padding: 12px;
 }
 
-/* Make CTA visually match the menu links */
-.nav-mobile-cta {
-  display: block;
-  margin: 0;          /* remove the extra separation */
+.nav{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+  background: var(--bg);
 }
 
-.nav-mobile-cta .btn {
+.nav-inner {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.brand-text {
+  font-weight: 1000;
+  font-family: var(--font-serif);
+  color: var(--muted);
+  display: inline-block;
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* Gold dash under brand text */
+.brand-text::after {
+  content: "";
   display: block;
   width: 100%;
+  height: 2px;
+  margin-top: 6px;
+  background: linear-gradient(
+    90deg,
+    rgba(184,154,61,0.9),
+    rgba(184,154,61,0.35),
+    transparent
+  );
+  border-radius: 2px;
+}
+
+.brand-logo {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  display: block;
+  border-radius: 10px;
+  opacity: 0.92;
+  filter: saturate(0.9);
+}
+
+@media (max-width: 900px) {
+  .brand-logo { width: 44px; height: 44px; }
+}
+
+/* Desktop nav links */
+.nav-links {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.nav-links a {
+  font-weight: 500;
+  padding: 10px;
+  border-radius: 10px;
+  opacity: 0.85;
+}
+
+.nav-links a.active {
+  background: none;
+  border: none;
+  box-shadow: inset 0 -2px 0 rgba(184,154,61,0.6);
+}
+
+/* Mobile active underline — gold fade */
+@media (max-width: 900px) {
+  .nav-mobile-links a.active {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    position: relative;
+  }
+
+  .nav-mobile-links a.active::after {
+    content: "";
+    position: absolute;
+    left: 12%;
+    right: 12%;
+    bottom: 8px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(184,154,61,0.85),
+      rgba(184,154,61,0.45),
+      transparent
+    );
+  }
+}
+
+
+.nav-cta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Mobile toggle button */
+.nav-mobile { display: none; }
+
+.nav-hamburger {
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(6px);
+
+  border-radius: 10px;        /* slightly sharper */
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  z-index: 10001;
+
+  transition: border-color 180ms ease, transform 160ms ease;
+}
+.nav-hamburger:hover {
+  border-color: rgba(184,154,61,0.45);   /* gold accent */
+  transform: translateY(-1px);
+}
+
+/* Hide hamburger on desktop */
+@media (min-width: 901px) {
+  .nav-mobile {
+    display: none !important;
+  }
+}
+
+.hamburger-lines { display: inline-grid; gap: 4px; }
+.hamburger-lines span {
+  width: 20px;
+  height: 2px;
+  background: rgba(17,19,21,0.9);
+  border-radius: 2px;
+}
+
+.nav-mobile-links {
+  display: grid;
+  gap: 10px;
+  text-align: center;
+}
+
+.nav-mobile-links a {
+  padding: 14px 12px;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.nav-mobile-cta .btn-primary {
+  background: var(--gold) !important;
+  border-color: rgba(184,154,61,0.45) !important;
+  color: #111 !important;
+}
+
+/* Mobile menu pills (links + CTA match style) */
+.nav-mobile-links a,
+.nav-mobile-cta .btn {
+  background: rgba(247,247,245,0.95);
+  border: 1px solid rgba(0,0,0,0.12);
+  color: rgba(0,0,0,0.92);
+  font-weight: 650;
+}
+
+.nav-mobile-links a {
   padding: 12px 12px;
   border-radius: 12px;
-  justify-content: flex-start;
-}
-
-/* Keep it “link-like” but highlighted */
-.nav-mobile-cta .btn-primary {
-  background: rgba(184,154,61,0.12);
-  border: 1px solid rgba(184,154,61,0.22);
-  box-shadow: none;
+  border: 1px solid transparent;
 }
 
 
+@media (max-width: 900px) {
+  .nav-mobile-links a.active {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: inset 0 -2px 0 rgba(184,154,61,0.6);
+    border-radius: 0;
+  }
+}
 
-/* =========================
-   ABOUT PAGE
-   ========================= */
+.nav-mobile-cta {
+  display: grid;
+  gap: 10px;
+  margin: 10px 0 2px;
+}
+
+@media (max-width: 900px) {
+  .nav-desktop { display: none; }
+  .nav-mobile { display: inline-flex; }
+  .brand-text { display: none; }
+}
+
+/* =========================================================
+   11) BUTTONS
+   ========================================================= */
+
+.btn {
+  border: 1px solid rgba(17,19,21,0.14);
+  background: #fff;
+  color: var(--text);
+  border-radius: 14px;
+  padding: 13px 16px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(184,154,61,0.35);
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, rgba(184,154,61,0.95), rgba(168,134,47,0.95));
+  border: 1px solid rgba(184,154,61,0.45);
+  font-weight: 700;
+}
+.btn-primary:hover { border-color: rgba(184,154,61,0.60); }
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+}
+.btn-ghost:hover { border-color: rgba(184,154,61,0.35); }
+
+.btn:disabled,
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* =========================================================
+   12) FORMS
+   ========================================================= */
+
+.form { display: grid; gap: 14px; }
+
+.inline-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 720px) { .inline-row { grid-template-columns: 1fr; } }
+
+.field { display: grid; gap: 6px; }
+
+.label {
+  font-weight: 650;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(17,19,21,0.78);
+}
+
+.input, .select, .textarea {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  background: rgba(255,255,255,0.92);
+  color: var(--text);
+  padding: 12px 12px;
+  font: inherit;
+}
+
+.textarea { min-height: 140px; resize: vertical; }
+.hint { font-size: 13px; color: var(--muted); }
+.error { font-size: 13px; color: #9b1c1c; font-weight: 600; }
+
+/* =========================================================
+   13) FOOTER
+   ========================================================= */
+
+.footer {
+  padding: 34px 0;
+  border-top: 1px solid rgba(230,226,214,0.85);
+  background: rgba(255,255,255,0.55);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+@media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr; } }
+
+/* =========================================================
+   14) ABOUT PAGE
+   ========================================================= */
 
 .about .readable { max-width: 980px; }
-.about .section-block { 
+
+.about .section-block{
+  margin-top: 0;
   padding-top: 64px;
   padding-bottom: 64px;
+  position: relative;
 }
+
+@media (max-width: 720px){
+  .about .section-block{
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+}
+
 .about .section-block:first-child { 
   margin-top: 0; 
   border-top: none;
@@ -455,13 +698,6 @@ body.menu-open { overflow: hidden; }
   .about .section-block:first-child .h2 { white-space: normal; }
 }
 
-.bullets {
-  margin: 10px 0 0;
-  padding-left: 18px;
-  color: var(--muted);
-  line-height: 1.65;
-}
-
 .about-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -469,7 +705,6 @@ body.menu-open { overflow: hidden; }
   margin-top: 18px;
   max-width: 980px;
 }
-
 .about-col.optional { opacity: 0.98; }
 @media (max-width: 980px) { .about-split { grid-template-columns: 1fr; gap: 16px; } }
 
@@ -506,7 +741,6 @@ body.menu-open { overflow: hidden; }
   gap: 16px;
   align-items: stretch;
 }
-
 @media (max-width: 980px){ .teamGrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px){ .teamGrid{ grid-template-columns: 1fr; } }
 
@@ -525,6 +759,25 @@ body.menu-open { overflow: hidden; }
 .teamCard{ height: 100%; display:flex; flex-direction: column; }
 .teamCard .cred-strip{ margin-top: auto; }
 .teamCard .card-title { font-size: 16px; opacity: 0.9; }
+
+
+.connection-card.ceo {
+  background: linear-gradient(
+    135deg,
+    rgba(184, 154, 61, 0.18) 0%,
+    rgba(184, 154, 61, 0.10) 100%
+  );
+  border: 1px solid rgba(184, 154, 61, 0.35);
+  box-shadow: 0 18px 45px rgba(184, 154, 61, 0.18);
+}
+
+.connection-card.ceo h3 {
+  color: var(--text);
+}
+
+.connection-card.ceo .role {
+  color: #8c6d1f;
+}
 
 .aboutBand {
   margin-top: 22px;
@@ -579,7 +832,7 @@ body.menu-open { overflow: hidden; }
   .cred-item { grid-template-columns: 1fr; gap: 6px; }
 }
 
-/* Wide-screen expansion for About elements only */
+/* Wide-screen expansion for About only */
 .about .summaryTable,
 .about .about-split,
 .about .grid,
@@ -602,347 +855,25 @@ body.menu-open { overflow: hidden; }
   .about .teamGrid { max-width: 1400px; }
 }
 
+/* =========================================================
+   15) HOME — HERO / SEGMENTS / PROOF STRIP / SCROLL FOCUS
+   ========================================================= */
 
-
-/* =========================
-   ABOUT — HOME-LIKE BAND SPACING
-   ========================= */
-
-.about .section-block{
-  margin-top: 0;                    /* remove the old 36px rhythm */
-  padding-top: 64px;
-  padding-bottom: 64px;
-}
-
-@media (max-width: 720px){
-  .about .section-block{
-    padding-top: 72px;
-    padding-bottom: 72px;
-  }
-}
-
-/* Optional: subtle band feel (very similar to Home segments, but calmer) */
-.about .section-block{
-  position: relative;
-}
-
-.about .section-block::before{
-  content: none !important;
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(900px 260px at 18% 12%, rgba(184,154,61,0.08), transparent 60%),
-    radial-gradient(700px 240px at 80% 30%, rgba(17,19,21,0.04), transparent 60%);
-  pointer-events: none;
-  opacity: 0.9;
-}
-
-.about .section-block > *{
-  position: relative;
-  z-index: 1;
-}
-
-
-/* =========================
-   NAVBAR (Desktop + Mobile)
-   ========================= */
-
-.nav{
-  margin-top: 10px;
-  margin-bottom: 10px;
-  position: sticky;
-  top: 0;
-  z-index: 10000;          /* higher than backdrop + menu */
-  background: var(--bg);   /* or var(--surface) */
-}
-
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-left: auto;
-}
-
-.nav-inner {
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
+/* Home section lead statements (bigger) */
+.home .segment-what .h2,
+.home .segment-how .h2,
+.home .segment-who .h2 {
+  font-size: clamp(36px, 5vw, 58px);
   font-weight: 650;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  margin-bottom: 20px;
 }
 
-.brand-text {
-  font-weight: 1000;
-  font-family: var(--font-serif);
-  color: var(--muted);
-  display: inline-block;
-  font-size: 20px;           /* try 18–22 */
-  line-height: 1;
-}
-
-/* Gold dash under brand text */
-.brand-text::after {
-  content: "";
-  display: block;
-  width: 100%;              /* dash length */
-  height: 2px;
-  margin-top: 6px;
-
-  background: linear-gradient(
-    90deg,
-    rgba(184,154,61,0.9),
-    rgba(184,154,61,0.35),
-    transparent
-  );
-
-  border-radius: 2px;
-}
-
-.brand-mark {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: radial-gradient(circle at 30% 30%, rgba(184,154,61,0.9), rgba(184,154,61,0.2));
-  border: 1px solid rgba(184,154,61,0.35);
-  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.08);
-}
-
-.brand-logo {
-  width: 130px;
-  height: 130px;
-  object-fit: contain;
-  display: block;
-  border-radius: 10px;
-  opacity: 0.92;
-  filter: saturate(0.9);
-}
-
-@media (max-width: 900px) {
-  .brand-logo {
-    width: 44px;
-    height: 44px;
-  }
-}
-
-.nav-links {
-  display: flex;
-  gap: 18px;
-  align-items: center;
-}
-
-.nav-links a {
-  font-weight: 500;
-  padding: 10px;
-  border-radius: 10px;
-  opacity: 0.85;
-}
-
-.nav-links a.active {
-  background: none;
-  border: none;
-  box-shadow: inset 0 -2px 0 rgba(184,154,61,0.6);
-}
-
-.nav-cta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* Mobile toggles */
-.nav-mobile { display: none; }
-
-.nav-hamburger {
-  position: relative;
-  border: 1px solid rgba(1, 1, 1, 0.14);
-  background: rgba(255,255,255,0.9);
-  border-radius: 12px;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 10001;
-}
-
-.hamburger-lines { display: inline-grid; gap: 4px; }
-.hamburger-lines span {
-  width: 20px;
-  height: 2px;
-  background: rgba(17,19,21,0.9);
-  border-radius: 2px;
-}
-
-.nav-mobile-menu {
-  margin-top: 10px;
-  border: 1px solid rgba(230,226,214,0.85);
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
-  padding: 12px;
-}
-
-.nav-mobile-links { display: grid; gap: 6px; }
-
-/* Base pill style — ALL items look the same */
-.nav-mobile-links a,
-.nav-mobile-cta .btn {
-  background: rgba(247,247,245,0.95);
-  border: 1px solid rgba(0,0,0,0.12);
-  color: rgba(0,0,0,0.92);
-  font-weight: 650;
-}
-
-/* Active page — subtle gold, not loud */
-.nav-mobile-links a.active {
-  background: rgba(184,154,61,0.14);
-  border-color: rgba(184,154,61,0.35);
-  color: rgba(0,0,0,0.95);
-}
-
-
-
-
-.nav-mobile-links a {
-  padding: 12px 12px;
-  border-radius: 12px;
-  border: 1px solid transparent;
-  font-weight: 650;
-}
-
-.nav-mobile-links a.active {
-  background: rgba(184,154,61,0.12);
-  border-color: rgba(184,154,61,0.22);
-}
-
-.nav-mobile-cta {
-  display: grid;
-  gap: 10px;
-  margin: 10px 0 2px;
-}
-
-@media (max-width: 900px) {
-  .nav-desktop { display: none; }
-  .nav-mobile { display: inline-flex; }
-  .brand-text { display: none; }
-}
-
-/* =========================
-   BUTTONS
-   ========================= */
-
-.btn {
-  border: 1px solid rgba(17,19,21,0.14);
-  background: #fff;
-  color: var(--text);
-  border-radius: 14px;
-  padding: 13px 16px;
-  font-weight: 650;
-  cursor: pointer;
-  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  text-decoration: none;
-  letter-spacing: 0.01em;
-  line-height: 1;
-}
-
-.btn:hover {
-  transform: translateY(-1px);
-  border-color: rgba(184,154,61,0.35);
-}
-
-.btn-primary {
-  background: linear-gradient(180deg, rgba(184,154,61,0.95), rgba(168,134,47,0.95));
-  border: 1px solid rgba(184,154,61,0.45);
-  font-weight: 700;
-}
-.btn-primary:hover { border-color: rgba(184,154,61,0.60); }
-
-.btn-ghost {
-  background: transparent;
-  border: 1px solid rgba(0, 0, 0, 0.14);
-}
-.btn-ghost:hover { border-color: rgba(184,154,61,0.35); }
-
-.btn:disabled,
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* =========================
-   FORMS
-   ========================= */
-
-.form { display: grid; gap: 14px; }
-
-.inline-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-@media (max-width: 720px) { .inline-row { grid-template-columns: 1fr; } }
-
-.field { display: grid; gap: 6px; }
-
-.label {
-  font-weight: 650;
-  font-size: 13px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: rgba(17,19,21,0.78);
-}
-
-.input, .select, .textarea {
-  width: 100%;
-  border-radius: 14px;
-  border: 1px solid rgba(0, 0, 0, 0.14);
-  background: rgba(255,255,255,0.92);
-  color: var(--text);
-  padding: 12px 12px;
-  font: inherit;
-}
-
-.textarea { min-height: 140px; resize: vertical; }
-.hint { font-size: 13px; color: var(--muted); }
-.error { font-size: 13px; color: #9b1c1c; font-weight: 600; }
-
-/* =========================
-   FOOTER
-   ========================= */
-
-.footer {
-  padding: 34px 0;
-  border-top: 1px solid rgba(230,226,214,0.85);
-  background: rgba(255,255,255,0.55);
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-}
-@media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr; } }
-
-/* =========================
-   HOME (hero band + segments)
-   ========================= */
-
-/* Full-width hero background */
+/* Full-width hero container */
 .hero-full {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
+  width: 100%;
+  margin-left: 0;
   background: var(--bg);
   padding: 0;
   border-bottom: none;
@@ -953,7 +884,7 @@ button:disabled {
   gap: 24px;
 }
 
-/* Soft “segment” panels (separates sections without hard dividers) */
+/* Segment bands */
 .segment {
   position: relative;
   border-radius: 22px;
@@ -1017,56 +948,47 @@ button:disabled {
   padding-bottom: clamp(100px, 12vh, 200px);
 }
 
-/* Remove the gap between navbar and the first section on Home */
+/* Remove gap above Home hero */
 .section.home { padding-top: 0; margin-top: 0; }
 .section.home .hero-full { margin-top: 0; }
 
-/* IMPORTANT FIX:
-   If you still have any wrapper class like "center-wrap" in Home.jsx,
-   this forces it to behave like the first (left-aligned) section. */
-.home .center-wrap {
-  max-width: 1120px;
-  margin-left: 0;        /* ← NOT centered */
-  margin-right: auto;    /* ← left aligned */
-  padding-left: clamp(0px, 3.2vw, 72px);
-  padding-right: clamp(0px, 2vw, 48px);
-}
-
-@media (min-width: 1440px) { .home .center-wrap { max-width: 1280px; } }
-@media (min-width: 1800px) { .home .center-wrap { max-width: 1400px; } }
-@media (max-width: 720px) {
-  .home .center-wrap { padding-left: 0; padding-right: 0; }
-}
-
-
-/* =========================
-   HOME — PROOF STRIP (Gradient Dividers Only)
-   ========================= */
-
+/* Proof strip */
 .home .proofStrip{
   margin-top: 0px;
-  width: min(1040px, calc(100% - 32px));
+  width: 100%;
+  max-width: 1040px;
   margin-left: auto;
   margin-right: auto;
+  border: 1px solid rgba(184,154,61,0.18);
 
-  background: radial-gradient(
-    140% 160% at 50% 40%,
-    rgba(255, 255, 255, 0.92) 0%,
-    rgba(255, 255, 255, 0.85) 35%,
-    rgba(255, 255, 255, 0.55) 65%,
-    rgba(255, 255, 255, 0.15) 85%,
-    rgba(255, 255, 255, 0.00) 100%
-  );
-  backdrop-filter: blur(6px);              /* subtle glass polish */
-  border: none;
-  box-shadow: none;
+  background:
+    radial-gradient(
+      140% 160% at 50% 40%,
+      rgba(255, 255, 255, 0.92) 0%,
+      rgba(255, 255, 255, 0.85) 35%,
+      rgba(255, 255, 255, 0.55) 65%,
+      rgba(255, 255, 255, 0.15) 85%,
+      rgba(255, 255, 255, 0.00) 100%
+    );
+
+  box-shadow:
+    0 0 0 1px rgba(184,154,61,0.35),
+    0 0 30px rgba(184,154,61,0.25),
+    0 18px 50px rgba(17,19,21,0.06);
+
+  backdrop-filter: blur(6px);
   border-radius: 28px;
   overflow: visible;
 }
 
-.home .proofItem {
+.home .proofRow{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.home .proofItem{
   position: relative;
-  padding: 24px 28px;
+  padding: 18px 24px;
   border-radius: 18px;
   overflow: hidden;
 }
@@ -1075,35 +997,11 @@ button:disabled {
   content: "";
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(
-      220px 120px at 30% 20%,
-      rgba(184,154,61,0.12),
-      transparent 35%
-    );
+  background: radial-gradient(220px 120px at 30% 20%, rgba(184,154,61,0.12), transparent 35%);
   opacity: 0.8;
   pointer-events: none;
 }
 
-
-/* Layout */
-.home .proofRow{
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-/* Each cell */
-.home .proofItem{
-  padding: 12px 18px;
-  position: relative;
-}
-
-/* REMOVE any old borders */
-.home .proofItem:not(:last-child){
-  border-right: none;
-}
-
-/* Gradient divider (matches Federal Certification lines) */
 .home .proofItem:not(:last-child)::after{
   content: "";
   position: absolute;
@@ -1111,22 +1009,12 @@ button:disabled {
   right: 0;
   bottom: 0;
   width: 1px;
-
-  background: linear-gradient(
-    180deg,
-    rgba(184,154,61,0.95),
-    rgba(184,154,61,0.65),
-    rgba(230,226,214,0.9)
-  );
-
+  background: linear-gradient(180deg, rgba(184,154,61,0.95), rgba(184,154,61,0.65), rgba(230,226,214,0.9));
   opacity: 0.95;
 }
 
-/* Mobile stacking */
 @media (max-width: 900px){
-  .home .proofRow{
-    grid-template-columns: 1fr;
-  }
+  .home .proofRow{ grid-template-columns: 1fr; }
 
   .home .proofItem:not(:last-child)::after{
     right: auto;
@@ -1135,7 +1023,6 @@ button:disabled {
     bottom: 0;
     height: 1px;
     width: 100%;
-
     background: linear-gradient(
       90deg,
       transparent,
@@ -1146,29 +1033,23 @@ button:disabled {
   }
 }
 
-/* =========================
-   HOME — PROOF STRIP (Stronger text + gold numbers)
-   ========================= */
-
-/* Numbers: gold + more dominant */
 .home .statNum{
   font-family: var(--font-serif);
   font-weight: 750;
-  font-size: clamp(28px, 3.4vw, 40px);  /* bigger */
+  font-size: clamp(28px, 3.4vw, 40px);
   letter-spacing: -0.015em;
   line-height: 1.05;
-
-  color: var(--gold);              /* ✅ gold */
+  color: var(--gold);
   margin-bottom: 6px;
-
-  /* tiny crispness boost for serif */
   text-shadow: 0 1px 0 rgba(184,154,61,0.25);
-    position: relative;
+  position: relative;
   z-index: 1;
 }
 
+.home .proofItem:first-child .statNum {
+  font-size: clamp(30px, 3.8vw, 44px);
+}
 
-/* Labels: more prominent + darker */
 .home .proofV {
   font-family: var(--font-serif);
   font-weight: 650;
@@ -1177,150 +1058,29 @@ button:disabled {
   text-transform: uppercase;
   line-height: 1.5;
   color: rgba(0,0,0,0.9);
-
-  white-space: nowrap;     /* 🔥 keeps wording on one line */
-  display: inline-block;   /* 🔥 makes underline match text width */
+  white-space: nowrap;
+  display: inline-block;
   position: relative;
-  padding-bottom: 14px;   /* space for the line */
+  padding-bottom: 14px;
 }
 
-/* Gold underline */
 .home .proofV::after {
   content: "";
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   bottom: 0;
-
-  width: 100%;           /* adjust length here */
+  width: 100%;
   height: 2px;
-
-  background: linear-gradient(
-    90deg,
-    var(--gold),
-    rgba(184,154,61,0.35),
-    transparent
-  );
-
+  background: linear-gradient(90deg, var(--gold), rgba(184,154,61,0.35), transparent);
   border-radius: 2px;
 }
 
-
-.home .proofItem:first-child .statNum {
-  font-size: clamp(30px, 3.8vw, 44px);
-}
-
-
-/* Optional: tighten vertical rhythm so it reads like “one unit” */
-.home .proofItem{
-padding: 18px 24px;   /* was 12px */
-}
-
-
-/* =========================
-   HOME STRUCTURE TUNING
-   ========================= */
-
-/* Home section kicker: subordinate to "ADVANCED CIVIL SOLUTIONS" */
-.section-kicker{
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  opacity: 0.72;
-}
-
-.section-kicker::before{
-  width: 18px;
-  opacity: 0.7;
-}
-
-/* Make HOME bands feel like the hero (not inset cards) */
-.home .segment-what,
-.home .segment-how,
-.home .segment-who{
-  border-radius: 0;
-  margin: 0;
-  padding: 0;
-}
-
-/* add spacing back inside the band */
-.home .segment-what .page-frame-left,
-.home .segment-how .page-frame-left,
-.home .segment-who .page-frame-left{
-  padding-top: 0px;
-  padding-bottom: 40px;
-}
-
-/* HOME: remove extra space between hero and next band */
-.home .segment-hero { 
-  margin-bottom: 0;  
-  padding-top: 150px;   /* was 150px */
-  padding-bottom: 150px;
-}
-
-.home .segment-what { 
-  padding-top: 150px;
-  padding-bottom: 150px;
-}
-
-.home .segment-how { 
-  padding-top: 150px;
-  padding-bottom: 150px;
-}
-
-.home .segment-who { 
-  padding-top: 150px;
-  padding-bottom: 150px;
-}
-
-.home.section {
-  padding-bottom: 0;
-}
-
-/* Mobile hero adjustments */
-@media (max-width: 720px) {
-
-  .home .segment-hero {
-    padding-top: 72px;
-    padding-bottom: 72px;
-  }
-
-  .home .segment-hero .kicker {
-    margin-top: 0;
-  }
-
-  .home .segment-hero .h1,
-  .home .segment-hero .h1-hero {
-    margin-top: 6px;
-  }
-
-  .h1-hero,
-  .h1-hero .hero-line-1 {
-    white-space: normal;
-  }
-
-  .h1-hero .hero-break {
-    display: inline;
-    font-weight: 650;
-  }
-}
-
-/* Safety: prevent horizontal scroll */
-html, body {
-  overflow-x: hidden;
-}
-
-
-/* =========================
-   SCROLL FOCUS (Fade sections in/out)
-   ========================= */
-
+/* Scroll focus */
 .scroll-focus {
-  opacity: 0.34;                 /* “faded out” sections */
-  transform: translateY(10px);    /* tiny lift (not flashy) */
-  transition:
-    opacity 520ms ease,
-    transform 520ms ease,
-    filter 520ms ease;
+  opacity: 0.34;
+  transform: translateY(10px);
+  transition: opacity 520ms ease, transform 520ms ease, filter 520ms ease;
   will-change: opacity, transform;
 }
 
@@ -1330,12 +1090,10 @@ html, body {
   filter: none;
 }
 
-/* optional: very subtle blur for de-emphasis (keep tiny) */
 .scroll-focus:not(.is-active) {
   filter: blur(0.25px);
 }
 
-/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .scroll-focus {
     transition: none;
@@ -1345,32 +1103,50 @@ html, body {
   }
 }
 
-/* =========================
-   SBA CERTIFICATION BLOCK
-   ========================= */
+@media (max-width: 720px) {
+  .home .segment-hero {
+    padding-top: 32px;   /* was much larger */
+    padding-bottom: 72px;
+  }
+}
+@media (max-width: 900px) {
+  .home .segment-hero.scroll-focus {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+@media (max-width: 1200px) {
+  .cert-float {
+    display: none !important;
+  }
+}
+.gold-accent {
+  color: var(--gold);
+  font-weight: 600; /* slightly stronger but not bold-heavy */
+}
+
+/* =========================================================
+   16) SBA CERTIFICATION (STATIC + FLOATING)
+   ========================================================= */
 
 .cert-block {
   width: 100%;
   max-width: 300px;
-  margin: clamp(22px, 5vw, 52px) auto 0;  /* reduced proportionally */
+  margin: clamp(22px, 5vw, 52px) auto 0;
   text-align: center;
-
-  /* invisible container */
   background: transparent;
   border: none;
   box-shadow: none;
-
-  padding: 0;              /* no “card-like” padding */
+  padding: 0;
 }
 
-/* Federal label with lines */
 .cert-kicker {
-  display: inline-flex;    /* ✅ makes ::before/::after sit on the same line */
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-
   font-family: var(--font-serif);
-  font-size: 7.5px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -1383,38 +1159,29 @@ html, body {
   content: "";
   height: 1px;
   width: 42px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(184,154,61,0.65),
-    rgba(230,226,214,0.95),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(184,154,61,0.65), rgba(230,226,214,0.95), transparent);
   opacity: 0.9;
 }
 
-/* Certification title */
 .cert-title {
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 12px;
+  font-size: 18px;
   line-height: 1.3;
   letter-spacing: -0.01em;
   color: rgba(0,0,0,0.92);
   margin: 0 0 3px;
 }
 
-/* Subtext */
 .cert-sub {
   font-family: var(--font-serif);
-  font-size: 8px;
+  font-size: 12px;
   color: rgba(17,19,21,0.72);
   margin: 0 0 8px;
 }
 
-/* Badge wrapper (keep this — it’s the only “surface” now) */
 .cert-badge {
-  width: 98px;
+  width: 145px;
   margin: 0 auto;
   padding: 4px;
   border-radius: 10px;
@@ -1430,18 +1197,14 @@ html, body {
   border-radius: 8px;
 }
 
-
-/* =========================
-   FLOATING CERTIFICATION — 50% SIZE
-   ========================= */
-
+/* Floating badge */
 .cert-float {
   position: fixed;
   right: 24px;
   bottom: 24px;
   z-index: 9999;
 
-  width: 150px;              /* scaled down */
+  width: 150px;
   text-align: center;
 
   background: transparent;
@@ -1453,10 +1216,8 @@ html, body {
   transform: translateY(16px) scale(0.98);
   pointer-events: none;
 
-  transition:
-    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
-
+  transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
   transition-delay: 80ms;
 }
@@ -1467,15 +1228,12 @@ html, body {
   pointer-events: auto;
 }
 
-.cert-float:hover {
-  transform: translateY(-2px);
-}
+.cert-float:hover { transform: translateY(-2px); }
 
-/* Typography */
 .cert-float .cert-kicker {
-  display: flex;                 /* instead of inline-flex */
+  display: flex;
   align-items: center;
-  justify-content: center;       /* force true centering */
+  justify-content: center;
   gap: 6px;
 
   font-size: 7px;
@@ -1484,18 +1242,12 @@ html, body {
   opacity: 0.75;
 }
 
-/* Make the lines perfectly balanced */
 .cert-float .cert-kicker::before,
 .cert-float .cert-kicker::after {
   content: "";
-  flex: 1;                       /* equal width on both sides */
+  flex: 1;
   height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(184,154,61,0.65),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(184,154,61,0.65), transparent);
 }
 
 .cert-float .cert-title {
@@ -1510,85 +1262,78 @@ html, body {
   margin-bottom: 6px;
 }
 
-/* Badge */
 .cert-float .cert-badge {
   width: 55px;
   margin: 0 auto;
 }
 
-/* =========================
-   MOBILE (scaled proportionally)
-   ========================= */
-
 @media (max-width: 900px) {
   .cert-float {
-    width: 120px;          /* proportional shrink */
+    width: 120px;
     right: 14px;
     bottom: 14px;
   }
 
-  .cert-float .cert-kicker {
-    font-size: 6px;
+  .cert-float .cert-kicker { font-size: 6px; }
+
+  .cert-float .cert-title {
+    font-size: 8.5px;
+    line-height: 1.15;
+    margin-bottom: 1px;
   }
 
-.cert-float .cert-title {
-  font-size: 8.5px;
-  line-height: 1.15;
-  margin-bottom: 1px;   /* tighten */
+  .cert-float .cert-sub {
+    font-size: 7px;
+    margin-bottom: 4px;
+  }
+
+  .cert-float .cert-badge {
+    width: 55px;
+    margin: 2px auto 0 auto;
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .cert-float .cert-badge img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: translateY(-2px);
+  }
 }
 
-.cert-float .cert-sub {
-  font-size: 7px;
-  opacity: 0.8;
-  margin-bottom: 4px;   /* tighten */
-}
-
-.cert-float .cert-badge {
-  width: 55px;
-  margin: 2px auto 0 auto;   /* bring it closer */
-  padding: 0;                /* remove inherited padding */
-  background: transparent;   /* remove white card look */
-  border: none;
-  box-shadow: none;
-}
-
-.cert-float .cert-badge img {
-  display: block;
-  width: 100%;
-  height: auto;
-  transform: translateY(-2px);  /* optical alignment fix */
-}
-
-}
-
-
-/* =========================
-   Title break
-   ========================= */
-
-
+/* =========================================================
+   17) HERO TITLE BREAK (FIXED MEDIA BRACES)
+   ========================================================= */
 
 /* Keep first line glued together */
-.h1-hero .hero-line-1 {
-  white-space: nowrap;
+.h1-hero .hero-line-1{
+  white-space: normal;   /* IMPORTANT */
   opacity: 0.92;
 }
 
-/* Default: small screens → ONE line */
+/* Default: small screens -> single line */
 .h1-hero {
-  white-space: nowrap;
-  font-size: clamp(38px, 5.2vw, 60px); /* was too aggressive */
-  line-height: 1.08;                  /* slightly more breathing room */
-  letter-spacing: -0.025em;           /* softer than before */
+  white-space: normal;   /* IMPORTANT */
+  font-size: clamp(38px, 5.2vw, 60px);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
 }
 
-/* Wide screens → force the intentional break */
-@media (min-width: 1200px) {
-  .h1-hero {
-    white-space: normal;
-  }
 
-/* Tablet-ish (iPad landscape included): force the intentional break */
+/* Wide screens -> allow wrapping */
+@media (min-width: 1200px) {
+  .h1-hero { white-space: normal; }
+
+  .h1-hero .hero-break {
+    display: block;
+    margin-top: 0.15em;
+  }
+}
+
+/* Tablet-ish -> controlled break */
 @media (min-width: 820px) and (max-width: 1180px) {
   .h1-hero .hero-break {
     display: block;
@@ -1596,9 +1341,180 @@ html, body {
   }
 }
 
-  .h1-hero .hero-break {
-    display: block;
-    margin-top: 0.15em;
+/* =========================================================
+   18) HERO WIDTH LOCK + CENTERING
+   ========================================================= */
+
+.home .segment-hero .page-frame-left{
+  width: 100%;
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+.home .segment-hero .readable{
+  width: 100%;
+  max-width: none;          /* remove the centering constraint */
+  text-align: left;         /* left align */
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.home .segment-hero .readable .p{
+  max-width: 820px;          /* adjust until visually aligned */
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  border-left: none;         /* remove inherited left border */
+  padding-left: 0;
+}
+
+.home .segment-hero .h1-hero{
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.home .segment-hero .h1-hero .hero-line{
+  display: block;        /* each span becomes its own line */
+  white-space: normal;   /* each line stays on one line */
+  margin: 0;
+}
+
+.home .segment-hero .h1-hero .hero-line + .hero-line{
+  margin-top: 0.18em;    /* spacing between lines */
+}
+
+.home .segment-hero .hero-line{
+  display: block;     /* THIS makes each one its own line */
+  white-space: nowrap; /* Keeps each sentence on one line */
+}
+
+.home .segment-hero .h1-hero span + span{
+  margin-left: 0 !important;
+}
+
+.home .segment-hero .h1-hero span{
+  display: inline;
+  text-align: center;
+}
+
+.home .segment-hero .h1-hero .hero-break{
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* Desktop/tablet: keep ONLY the slogan on one line */
+@media (min-width: 900px) {
+  .home .segment-hero .h1-hero .hero-break:nth-of-type(3){
+    display: block !important;
+    white-space: normal !important;
   }
 
+  .home .segment-hero .h1-hero .hero-break:nth-of-type(3)::after{
+    content: "" !important;
+  }
+}
+
+
+/* =========================================================
+   HERO HIERARCHY — TUNED (smaller top line)
+   ========================================================= */
+
+.home .segment-hero .h1-hero .hero-line {
+  display: block;
+  white-space: normal !important;
+}
+
+/* Line 1 = dominant, but not oversized */
+.home .segment-hero .h1-hero .hero-line-2 {
+  font-size: clamp(34px, 4.2vw, 54px);  /* was bigger */
+  font-weight: 650;
+  line-height: 1.10;                    /* slightly taller for wrapped lines */
+  letter-spacing: -0.028em;
+}
+
+/* Line 2 = supporting conviction */
+.home .segment-hero .h1-hero .hero-line-3 {
+  font-size: clamp(24px, 2.7vw, 34px);  /* scaled down to match */
+  font-weight: 520;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: rgba(0, 0, 0, 0.90);
+  margin-top: 0.28em;
+}
+
+@media (min-width: 1000px) {
+  .home .segment-hero .h1-hero .hero-line-3 { white-space: nowrap !important; }
+}
+
+/* =========================================================
+   19) CONTACT US
+   ========================================================= */
+
+/* Contact form action buttons: match navbar "Contact Us" sizing */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+/* Make BOTH buttons the same size */
+.form-actions .btn {
+  height: 46px;                 /* match navbar CTA height */
+  padding: 0 26px;              /* match horizontal padding */
+  min-width: 170px;             /* keeps Clear same width */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+
+  min-width: 160px;             /* makes "Clear" same width as "Contact Us" */
+}
+
+/* Optional: on small screens, make them full width and stacked nicely */
+@media (max-width: 520px) {
+  .form-actions .btn {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.honeypot {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
+
+
+/* =========================================================
+   NAV — MOBILE BRAND FIX (show text, hide tiny logo)
+   ========================================================= */
+
+@media (max-width: 900px) {
+  /* Hide the image logo on mobile */
+  .brand-logo {
+    display: none !important;
+  }
+
+  /* Show the text brand on mobile */
+  .brand-text {
+    display: inline-block !important;  /* overrides your current display:none */
+    font-size: 18px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    color: var(--muted);
+    line-height: 1;
+  }
+
+  /* Optional: tighten the brand block so it aligns nicely */
+  .brand {
+    gap: 0 !important;
+  }
 }

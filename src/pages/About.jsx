@@ -14,8 +14,12 @@ function SBAFloat() {
   return (
     <div className="cert-float is-visible" aria-label="SBA certification">
       <div className="cert-kicker">Federal Certification</div>
-      <div className="cert-title">Service-Disabled Veteran-Owned Small Business (SDVOSB)</div>
-      <div className="cert-sub">Certified by the U.S. Small Business Administration</div>
+      <div className="cert-title">
+        Service-Disabled Veteran-Owned Small Business (SDVOSB)
+      </div>
+      <div className="cert-sub">
+        Certified by the U.S. Small Business Administration
+      </div>
 
       <div className="cert-badge">
         <img
@@ -32,8 +36,6 @@ export default function About() {
   // ✅ Scroll-focus fade behavior (tuned to feel consistent across section sizes)
   useEffect(() => {
     const els = Array.from(document.querySelectorAll(".scroll-focus"));
-
-    // ✅ Force initial state for visible first transition
     els.forEach((el) => el.classList.remove("is-active"));
 
     const obs = new IntersectionObserver(
@@ -47,7 +49,7 @@ export default function About() {
         });
       },
       {
-        threshold: 0.15, // ✅ lower so large blocks still activate naturally
+        threshold: 0.15,
         rootMargin: "-15% 0px -15% 0px",
       }
     );
@@ -56,82 +58,80 @@ export default function About() {
     return () => obs.disconnect();
   }, []);
 
-  // ✅ 7 people total (added 4)
+  // ✅ Leadership / Connections
   const TEAM = [
     {
-      name: "Jordan Hayes",
-      title: "Founder • Systems Engineering & Delivery",
+      name: "Marco Rojas",
+      title: "Chief Executive Officer (CEO)",
       summary:
-        "Builds audit-ready operational systems and delivery discipline for government contracting environments.",
+        "Leads company strategy, partner relationships, and delivery accountability across federal work.",
       focus: [
-        "Bid-to-delivery readiness",
-        "Documentation-first workflows",
-        "Governance-aligned execution",
+        "Prime strategy & contract positioning",
+        "Executive oversight on delivery",
+        "Partner coordination & escalation",
       ],
-      approach: "Documentation-first, systems-driven",
-      operatingStyle: "Calm execution under oversight",
+      approach: "Direct leadership with clear priorities",
+      operatingStyle: "Decisive, calm under pressure",
+      roleKey: "ceo",
     },
     {
-      name: "Team Member Two",
-      title: "Program Delivery • Compliance",
+      name: "Karl Hezel",
+      title: "Chief Technology Officer (CTO)",
       summary:
-        "Supports controlled change, traceability, and review-ready documentation across contract delivery.",
-      focus: ["Evidence & documentation", "Change control", "Delivery governance"],
-      approach: "Controls-based, risk-aware",
-      operatingStyle: "Structured execution, clear ownership",
+        "Leads technical execution and delivery systems to keep work review-ready and stable under constraints.",
+      focus: [
+        "Technical delivery planning",
+        "Systems & process design",
+        "Risk reduction through structure",
+      ],
+      approach: "Simple systems that scale",
+      operatingStyle: "Structured, detail-aware",
+      roleKey: "cto",
     },
     {
-      name: "Team Member Three",
-      title: "Procurement • Supplier Readiness",
+      name: "Lenny DelDuca",
+      title: "Sales",
       summary:
-        "Helps teams source parts with traceability, flow-down compliance, and supplier vetting aligned to contract needs.",
-      focus: ["Supplier vetting", "Traceability & flow-downs", "Substitution control"],
-      approach: "Contract-aligned sourcing",
-      operatingStyle: "Thorough, fast turnarounds",
-    },
-
-    // ✅ Added 4 more (edit names/titles as needed)
-    {
-      name: "Team Member Four",
-      title: "Quality Systems • Audit Readiness",
-      summary:
-        "Builds practical quality systems that generate clean evidence and reduce compliance risk under review.",
-      focus: ["QC/QA workflows", "Evidence packages", "Nonconformance handling"],
-      approach: "Evidence-driven, pragmatic",
-      operatingStyle: "Detail-oriented, low-drama execution",
+        "Supports opportunity development and customer coordination to keep the pipeline aligned with capabilities.",
+      focus: ["Opportunity intake", "Customer coordination", "Bid support"],
+      approach: "Clear communication, fast follow-up",
+      operatingStyle: "Responsive and consistent",
+      roleKey: "sales",
     },
     {
-      name: "Team Member Five",
-      title: "Contracts • Flow-down & Compliance",
+      name: "Gabe Hernandez",
+      title: "Sales",
       summary:
-        "Translates contract clauses into operational requirements and ensures subcontractor alignment.",
-      focus: ["Clause interpretation", "Flow-down enforcement", "Compliance mapping"],
-      approach: "Clause-to-process translation",
-      operatingStyle: "Clear guidance, controlled risk",
+        "Builds relationships and helps qualify opportunities so delivery expectations stay realistic and clear.",
+      focus: ["Lead qualification", "Partner outreach", "Customer alignment"],
+      approach: "Strong relationships, clean handoffs",
+      operatingStyle: "High energy, organized",
+      roleKey: "sales",
     },
     {
-      name: "Team Member Six",
-      title: "Program Controls • Risk & Reporting",
+      name: "Adam Civil",
+      title: "Sales",
       summary:
-        "Tracks milestones, risks, and delivery health so execution remains predictable and review-ready.",
-      focus: ["Risk registers", "Milestone tracking", "Status reporting"],
-      approach: "Structured tracking with accountability",
-      operatingStyle: "Calm, consistent execution",
+        "Drives customer communication and supports proposals to keep opportunities moving without confusion.",
+      focus: ["Proposal support", "Follow-through", "Customer updates"],
+      approach: "Simple messaging, steady progress",
+      operatingStyle: "Reliable, low-friction",
+      roleKey: "sales",
     },
     {
-      name: "Team Member Seven",
-      title: "Supplier Quality • Verification & Traceability",
+      name: "Sancaina Senelus",
+      title: "Sales",
       summary:
-        "Ensures procurement decisions preserve traceability and documentation integrity across suppliers.",
-      focus: ["Supplier qualification", "Verification checks", "Traceability assurance"],
-      approach: "Verification-based assurance",
-      operatingStyle: "Thorough, fast turnarounds",
+        "Supports outreach, scheduling, and customer readiness so the team can execute quickly when it matters.",
+      focus: ["Outreach", "Scheduling", "Customer readiness"],
+      approach: "Fast coordination, clear next steps",
+      operatingStyle: "Precise and steady",
+      roleKey: "sales",
     },
   ];
 
   return (
     <section className="section about">
-      {/* ✅ Sticky SBA floating badge (always visible) */}
       <SBAFloat />
 
       <Container>
@@ -145,48 +145,47 @@ export default function About() {
                 <div className="kicker">ABOUT ADVANCED CIVIL SOLUTIONS</div>
 
                 <h1 className="h2">
-                  Government contracting readiness — built for teams at any stage.
+                  We help companies win and deliver government contracts.
                 </h1>
 
                 <p className="p">
-                  Advanced Civil Solutions helps organizations prepare for and operate within government contracting
-                  environments by establishing <strong>disciplined delivery systems</strong>,{" "}
-                  <strong>repeatable processes</strong>, and <strong>audit-aware execution</strong>. We support{" "}
-                  <strong>contract-aligned parts procurement</strong> to help teams source components with traceability,
-                  flow-down compliance, and documentation that holds up under review. For organizations entering government
-                  contracting for the first time, we help clarify what’s required before mistakes become costly.
+                  Advanced Civil Solutions helps organizations win, manage, and
+                  deliver government contracts. We set up the documentation,
+                  sourcing, and delivery processes required by federal buyers—so
+                  your work stays compliant and your deliveries stay on time. If
+                  you’re new to government contracting, we help you get set up
+                  correctly before mistakes become expensive.
                 </p>
               </div>
 
               <div className="about-split">
                 <div className="about-col">
-                  <div className="card-title">Who this is for</div>
+                  <div className="card-title">Who we support</div>
                   <ul className="bullets">
-                    <li>
-                      <strong>Small businesses</strong> preparing for their first government contract
-                    </li>
-                    <li>
-                      <strong>Companies</strong> transitioning to public-sector work
-                    </li>
-                    <li>
-                      <strong>Prime contractors</strong> supporting subs and delivery partners
-                    </li>
-                    <li>
-                      <strong>Program teams</strong> needing compliant, traceable procurement to support delivery under
-                      oversight
-                    </li>
+                    <li>Businesses entering federal contracting</li>
+                    <li>Prime contractors managing suppliers</li>
+                    <li>Manufacturers and OEMs supporting government orders</li>
+                    <li>Distributors and resellers delivering contract items</li>
                   </ul>
                 </div>
 
                 <div className="about-col optional">
                   <div className="card-title">How we help</div>
                   <ul className="bullets">
-                    <li>Translate contract and regulatory requirements into practical delivery workflows</li>
-                    <li>Build documentation, controls, and review-ready artifacts that support oversight</li>
-                    <li>Strengthen execution discipline while preserving team velocity</li>
                     <li>
-                      Support parts procurement with supplier vetting, traceability, and substitution control aligned to
-                      contract requirements
+                      Break down contract requirements into clear steps your
+                      team can follow
+                    </li>
+                    <li>
+                      Set up documentation that’s ready for government review
+                    </li>
+                    <li>
+                      Support execution during delivery so nothing falls through
+                      the cracks
+                    </li>
+                    <li>
+                      Help source parts with traceability and compliant supplier
+                      documentation
                     </li>
                   </ul>
                 </div>
@@ -195,15 +194,21 @@ export default function About() {
               <div className="summaryTable" style={{ marginTop: 18 }}>
                 <div className="summaryRow">
                   <div className="summaryKey">Focus</div>
-                  <div className="summaryVal">Operational reliability + audit-ready delivery</div>
+                  <div className="summaryVal">
+                    Winning and delivering government contracts
+                  </div>
                 </div>
                 <div className="summaryRow">
                   <div className="summaryKey">Method</div>
-                  <div className="summaryVal">Disciplined execution, controlled change</div>
+                  <div className="summaryVal">
+                    Clear processes, clean documentation, compliant sourcing
+                  </div>
                 </div>
                 <div className="summaryRow">
                   <div className="summaryKey">Outcome</div>
-                  <div className="summaryVal">Predictable delivery under review</div>
+                  <div className="summaryVal">
+                    On-time delivery and fewer compliance issues
+                  </div>
                 </div>
               </div>
 
@@ -211,47 +216,50 @@ export default function About() {
             </div>
 
             {/* =========================================================
-                WHAT WE DO
+                WHAT WE DO (3 boxes)
                ========================================================= */}
             <div className="section-block scroll-focus">
               <div className="readable stack">
                 <div className="kicker">WHAT WE DO</div>
 
-                <h2 className="h3 about-h3">Clarity before award. Discipline during delivery.</h2>
+                <h2 className="h3 about-h3">
+                  Built for teams that need proof, not promises.
+                </h2>
 
                 <p className="p">
-                  We help teams understand what government contracts really require — before award, during delivery, and
-                  under review.
+                  Government contracting is strict for a reason. We help you
+                  meet requirements, stay organized, and deliver correctly.
                 </p>
               </div>
 
+              {/* Keep your grid-2 layout; third card spans full width */}
               <div className="grid grid-2" style={{ marginTop: 16 }}>
                 <div className="surface card">
-                  <div className="card-title">Bid-to-delivery readiness</div>
+                  <div className="card-title">SDVOSB Prime Contracting</div>
                   <p className="card-body">
-                    Translate requirements into owners, artifacts, timelines, and review-ready delivery systems.
+                    We bid, win, and deliver federal contracts as a
+                    Service-Disabled Veteran-Owned Small Business. We partner
+                    with manufacturers and suppliers to deliver compliant,
+                    on-time results.
                   </p>
                 </div>
 
                 <div className="surface card">
-                  <div className="card-title">Governance & change control</div>
+                  <div className="card-title">Consulting & Training</div>
                   <p className="card-body">
-                    Reduce risk with controlled substitutions, approvals, traceability, and consistent evidence.
+                    We help companies enter government contracting and build the
+                    processes needed to win and manage contracts successfully.
                   </p>
                 </div>
 
-                <div className="surface card">
-                  <div className="card-title">Documentation-first execution</div>
+                <div className="surface card" style={{ gridColumn: "1 / -1" }}>
+                  <div className="card-title">
+                    Contract Administration & Procurement
+                  </div>
                   <p className="card-body">
-                    Build documentation as you deliver — so oversight isn’t a scramble.
-                  </p>
-                </div>
-
-                <div className="surface card">
-                  <div className="card-title">Contract-compliant procurement support</div>
-                  <p className="card-body">
-                    Supplier vetting, traceability, flow-down compliance, and substitution control aligned to contract
-                    needs.
+                    We manage sourcing, documentation, compliance, and supplier
+                    coordination so deliveries stay organized and ready for
+                    government review.
                   </p>
                 </div>
               </div>
@@ -260,7 +268,7 @@ export default function About() {
             </div>
 
             {/* =========================================================
-                HOW WE OPERATE
+                HOW WE OPERATE (cleaner language)
                ========================================================= */}
             <div className="section-block scroll-focus">
               <div className="readable stack">
@@ -270,37 +278,45 @@ export default function About() {
               <div className="grid grid-2" style={{ marginTop: 16 }}>
                 <div className="surface card">
                   <div className="card-title">Discipline</div>
-                  <p className="card-body">Clear plans, structured delivery, minimal surprises.</p>
+                  <p className="card-body">
+                    Clear plans. Clean handoffs. Fewer surprises.
+                  </p>
                 </div>
 
                 <div className="surface card">
                   <div className="card-title">Accountability</div>
-                  <p className="card-body">Ownership, traceability, measurable progress.</p>
+                  <p className="card-body">Clear owners and tracked action items.</p>
                 </div>
 
                 <div className="surface card">
                   <div className="card-title">Execution under pressure</div>
-                  <p className="card-body">Calm delivery when timelines tighten and oversight increases.</p>
+                  <p className="card-body">
+                    Calm delivery when timelines get tight.
+                  </p>
                 </div>
 
                 <div className="surface card">
                   <div className="card-title">Security by design</div>
-                  <p className="card-body">Least-privilege access and audit-ready workflows.</p>
+                  <p className="card-body">
+                    Access control and clean records for government work.
+                  </p>
                 </div>
               </div>
 
               <div className="aboutBand">
                 <div className="grid grid-2">
                   <div>
-                    <div className="card-title">What “audit-ready” means</div>
+                    <div className="card-title">What “review-ready” means</div>
                     <p className="card-body">
-                      Controls, evidence, and documentation that hold up under oversight—without slowing execution.
+                      Documentation and traceability that can stand up to
+                      government review—without slowing delivery.
                     </p>
                   </div>
                   <div>
                     <div className="card-title">How we measure progress</div>
                     <p className="card-body">
-                      Clear owners, tracked actions, and visible delivery milestones aligned to contract requirements.
+                      Milestones, owners, and status updates tied to contract
+                      requirements.
                     </p>
                   </div>
                 </div>
@@ -317,8 +333,9 @@ export default function About() {
                 <div className="kicker">WHERE WE’RE GOING</div>
 
                 <p className="p">
-                  Become a trusted partner for organizations entering government contracting — setting a standard for
-                  clarity, professionalism, and execution discipline.
+                  We aim to be the partner teams rely on when contract
+                  requirements are high and delivery must be right the first
+                  time.
                 </p>
               </div>
 
@@ -327,29 +344,24 @@ export default function About() {
 
             {/* =========================================================
                 TEAM
-            ========================================================= */}
+               ========================================================= */}
             <div className="section-block">
-
-              {/* Header fades in */}
               <div className="readable stack scroll-focus">
                 <div className="kicker">OUR TEAM</div>
                 <h2 className="h2">People you can trust with mission-critical work.</h2>
                 <p className="p" style={{ maxWidth: 760 }}>
-                  A small team built around disciplined delivery, documentation-first workflows, and calm execution under oversight.
+                  A small team focused on clear documentation, compliant
+                  sourcing, and organized delivery—so government work gets done
+                  right.
                 </p>
               </div>
 
-              {/* ================================================
-                  FOUNDER — centered, above the grid
-              ================================================ */}
+              {/* CEO — top card (gold) */}
               <div
                 className="scroll-focus"
-                style={{
-                  maxWidth: 720,
-                  margin: "40px auto 60px auto",
-                }}
+                style={{ maxWidth: 820, margin: "40px auto 30px auto" }}
               >
-                <div className="surface card teamCard scroll-focus">
+                <div className="surface card teamCard ceoCard scroll-focus">
                   <div className="teamHeader" style={{ justifyContent: "center" }}>
                     <div className="teamAvatar" aria-hidden="true" />
                     <div style={{ textAlign: "left" }}>
@@ -387,11 +399,51 @@ export default function About() {
                 </div>
               </div>
 
-              {/* ================================================
-                  Remaining team members (grid)
-              ================================================ */}
-              <div className="teamGrid scroll-focus" style={{ marginTop: 10 }}>
-                {TEAM.slice(1).map((person) => (
+              {/* Row 2 — CTO (left) + Sales (right) */}
+              <div className="grid grid-2 scroll-focus" style={{ marginTop: 10 }}>
+                {TEAM.slice(1, 3).map((person) => (
+                  <div key={person.name} className="surface card teamCard scroll-focus">
+                    <div className="teamHeader">
+                      <div className="teamAvatar" aria-hidden="true" />
+                      <div>
+                        <div className="card-title" style={{ marginBottom: 4 }}>
+                          {person.name}
+                        </div>
+                        <div className="small">{person.title}</div>
+                      </div>
+                    </div>
+
+                    <p className="card-body" style={{ marginTop: 12 }}>
+                      {person.summary}
+                    </p>
+
+                    <hr className="hr-gold" />
+
+                    <Card title="Focus areas">
+                      <ul className="bullets">
+                        {person.focus.map((f) => (
+                          <li key={f}>{f}</li>
+                        ))}
+                      </ul>
+                    </Card>
+
+                    <div className="cred-strip" style={{ marginTop: 12 }}>
+                      <div className="cred-item">
+                        <div className="cred-k">Approach</div>
+                        <div className="cred-v">{person.approach}</div>
+                      </div>
+                      <div className="cred-item">
+                        <div className="cred-k">Operating style</div>
+                        <div className="cred-v">{person.operatingStyle}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Row 3 — 3 Sales cards */}
+              <div className="teamGrid scroll-focus" style={{ marginTop: 16 }}>
+                {TEAM.slice(3).map((person) => (
                   <div key={person.name} className="surface card teamCard scroll-focus">
                     <div className="teamHeader">
                       <div className="teamAvatar" aria-hidden="true" />
@@ -433,7 +485,6 @@ export default function About() {
 
               <hr className="hr-gold" />
             </div>
-
           </FadeIn>
         </div>
       </Container>

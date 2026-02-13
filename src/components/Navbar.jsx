@@ -87,7 +87,7 @@ export default function Navbar() {
               variant="primary"
               className={({ isActive }) => (isActive ? "active" : "")}
             >
-              Book a Consultation
+               Contact Us
             </Button>
 
           </div>
@@ -160,7 +160,7 @@ export default function Navbar() {
 
               <div className="nav-mobile-cta">
                 <Button as={Link} to="/book-consultation" variant="primary" onClick={closeMenu}>
-                  Book a Consultation
+                  Contact Us
                 </Button>
               </div>
             </div>

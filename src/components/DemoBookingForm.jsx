@@ -1,5 +1,6 @@
 // src/components/DemoBookingForm.jsx
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import FormField from "./FormField.jsx";
 import Button from "./Button.jsx";
 
@@ -13,7 +14,36 @@ const initialValues = {
   email: "",
   phone: "",
   comment: "",
+  website: "", // honeypot (bots often fill this)
 };
+
+// Client-side rate limit (per browser/device)
+// Note: true per-IP limiting requires a backend endpoint.
+const RL_KEY = "acs_contact_rate_v1";
+function checkClientRateLimit({ max = 5, windowMs = 60_000 } = {}) {
+  const now = Date.now();
+  try {
+    const raw = localStorage.getItem(RL_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    const recent = Array.isArray(arr) ? arr.filter((t) => now - t < windowMs) : [];
+
+    if (recent.length >= max) {
+      const retryMs = windowMs - (now - recent[0]);
+      return { limited: true, retryMs };
+    }
+
+    recent.push(now);
+    localStorage.setItem(RL_KEY, JSON.stringify(recent));
+    return { limited: false, retryMs: 0 };
+  } catch {
+    // If storage is blocked, don't block legitimate users.
+    return { limited: false, retryMs: 0 };
+  }
+}
+
+// IMPORTANT: Set this to true only if you explicitly want local demo storage.
+// In production, keep false to avoid storing submissions in localStorage.
+const ENABLE_LOCAL_DEMO_STORAGE = false;
 
 export default function DemoBookingForm({ mode = "consultation" }) {
   const [values, setValues] = useState(initialValues);
@@ -41,6 +71,30 @@ export default function DemoBookingForm({ mode = "consultation" }) {
     e.preventDefault();
     setStatus(null);
 
+    // 1) Honeypot: if filled, it's almost certainly a bot.
+    // Pretend success so bots don't learn.
+    if (values.website && values.website.trim() !== "") {
+      setStatus({
+        type: "success",
+        message:
+          "Request received. We’ll review your notes and follow up to confirm fit and next steps.",
+        bookingId: null,
+      });
+      return;
+    }
+
+    // 2) Client-side rate limit (per browser/device)
+    const rl = checkClientRateLimit({ max: 5, windowMs: 60_000 });
+    if (rl.limited) {
+      const seconds = Math.ceil(rl.retryMs / 1000);
+      setStatus({
+        type: "error",
+        message: `Too many submissions. Please try again in ${seconds} seconds.`,
+      });
+      return;
+    }
+
+    // 3) Validate
     const nextErrors = validateIntake(values);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length) return;
@@ -51,20 +105,26 @@ export default function DemoBookingForm({ mode = "consultation" }) {
       const payload = {
         mode,
         submittedAt: new Date().toISOString(),
-        ...values,
+        name: values.name,
+        company: values.company,
+        email: values.email,
+        phone: values.phone,
+        comment: values.comment,
       };
 
-      // demo behavior
-      saveSubmission(payload);
+      // Optional demo behavior: store locally (disabled by default)
+      if (ENABLE_LOCAL_DEMO_STORAGE) {
+        saveSubmission(payload);
+      }
 
-      // mock API call
+      // Mock API call (replace with real endpoint later)
       const res = await postBookDemo(payload);
       if (!res?.ok) throw new Error("Submit failed");
 
       setStatus({
         type: "success",
         message:
-          "Request received. We’ll review your notes and follow up to confirm fit and schedule next steps.",
+          "Request received. We’ll review your notes and follow up to confirm fit and next steps.",
         bookingId: res?.data?.bookingId || null,
       });
     } catch (err) {
@@ -79,6 +139,24 @@ export default function DemoBookingForm({ mode = "consultation" }) {
 
   return (
     <form className="form" onSubmit={onSubmit} onReset={onClear} noValidate>
+      {/* Honeypot field (hidden from humans, visible to many bots) */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        value={values.website}
+        onChange={(e) => setField("website", e.target.value)}
+        style={{
+          position: "absolute",
+          opacity: 0,
+          pointerEvents: "none",
+          height: 0,
+          width: 0,
+        }}
+        aria-hidden="true"
+      />
+
       {/* Left column: Name + Company | Right column: Email + Phone */}
       <div className="inline-row">
         <div className="form">
@@ -141,14 +219,19 @@ export default function DemoBookingForm({ mode = "consultation" }) {
       </FormField>
 
       {/* Actions */}
-      <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+      <div className="form-actions">
         <Button type="submit" className="btn btn-primary" disabled={submitting}>
-          {submitting ? "Submitting..." : "Request a Consultation"}
+          {submitting ? "Submitting..." : "Contact Us"}
         </Button>
 
         <Button type="reset" className="btn btn-ghost" disabled={submitting}>
           Clear
         </Button>
+      </div>
+
+      {/* Consent line */}
+      <div className="small" style={{ marginTop: 12, opacity: 0.85 }}>
+        By submitting this form, you agree to our <Link to="/privacy">Privacy Policy</Link>.
       </div>
 
       {/* Status */}

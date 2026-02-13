@@ -10,21 +10,19 @@ export default function BookConsultation() {
       <Container>
         <div className="page-frame-left">
           <FadeIn>
-            <div className="kicker">Request a Consultation</div>
+            <div className="kicker">Contact</div>
 
             <h1 className="h2" style={{ marginTop: 10 }}>
               Start a structured conversation.
             </h1>
 
             <p className="p">
-              Share your objective, timeline, and constraints. We’ll review your notes and follow up with next steps.
+              Share your objective, timeline, and constraints. We’ll review your notes and
+              follow up with next steps.
             </p>
 
             <div style={{ marginTop: 16 }} className="surface card">
               <DemoBookingForm mode="consultation" />
-              <div className="hint" style={{ marginTop: 10 }}>
-                Demo build: submissions are stored locally. Production deployments can route to your CRM and follow-up workflow.
-              </div>
             </div>
           </FadeIn>
         </div>
