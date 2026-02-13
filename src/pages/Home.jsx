@@ -121,7 +121,7 @@ export default function Home() {
 
                   <div className="cert-badge">
                     <img
-                      src="/SBA.webp"
+                      src="/SBA.svg"
                       alt="U.S. Small Business Administration — Service-Disabled Veteran-Owned Certified"
                       loading="eager"
                       fetchpriority="high"
@@ -330,7 +330,7 @@ export default function Home() {
 
         <div className="cert-badge">
           <img
-            src="/SBA.webp"
+            src="/SBA.svg"
             alt="U.S. Small Business Administration — Service-Disabled Veteran-Owned Certified"
             loading="lazy"
           />

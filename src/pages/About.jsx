@@ -23,7 +23,7 @@ function SBAFloat() {
 
       <div className="cert-badge">
         <img
-          src="/SBA.webp"
+          src="/SBA.svg"
           alt="U.S. Small Business Administration — Service-Disabled Veteran-Owned Certified"
           loading="lazy"
         />
@@ -73,6 +73,7 @@ export default function About() {
       approach: "Direct leadership with clear priorities",
       operatingStyle: "Decisive, calm under pressure",
       roleKey: "ceo",
+      avatar: "/Marco.svg",
     },
     {
       name: "Karl Hezel",
@@ -87,6 +88,7 @@ export default function About() {
       approach: "Simple systems that scale",
       operatingStyle: "Structured, detail-aware",
       roleKey: "cto",
+      avatar: "/Karl.svg",
     },
     {
       name: "Lenny DelDuca",
@@ -363,7 +365,16 @@ export default function About() {
               >
                 <div className="surface card teamCard ceoCard scroll-focus">
                   <div className="teamHeader" style={{ justifyContent: "center" }}>
-                    <div className="teamAvatar" aria-hidden="true" />
+                    <div className="teamAvatar">
+                      {TEAM[0].avatar ? (
+                        <img
+                          src={TEAM[0].avatar}
+                          alt={`${TEAM[0].name} headshot`}
+                          loading="eager"
+                          decoding="async"
+                        />
+                      ) : null}
+                    </div>
                     <div style={{ textAlign: "left" }}>
                       <div className="card-title" style={{ marginBottom: 4 }}>
                         {TEAM[0].name}
@@ -404,7 +415,19 @@ export default function About() {
                 {TEAM.slice(1, 3).map((person) => (
                   <div key={person.name} className="surface card teamCard scroll-focus">
                     <div className="teamHeader">
-                      <div className="teamAvatar" aria-hidden="true" />
+                      <div className="teamAvatar">
+                        {person.avatar ? (
+                          <img
+                            src={person.avatar}
+                            alt={`${person.name} headshot`}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        ) : (
+                          <div className="avatarPlaceholder" />
+                        )}
+                      </div>
+
                       <div>
                         <div className="card-title" style={{ marginBottom: 4 }}>
                           {person.name}

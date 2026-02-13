@@ -2,7 +2,7 @@ import React from "react";
 import Container from "../components/Container.jsx";
 
 export default function PrivacyPolicy() {
-  const contactEmail = "contact@ask-acs.com";
+  const contactEmail = "contact@advancedcivilsolutionsllc.com";
 
   return (
     <section className="section">

@@ -760,6 +760,45 @@ button:disabled {
 .teamCard .cred-strip{ margin-top: auto; }
 .teamCard .card-title { font-size: 16px; opacity: 0.9; }
 
+/* =========================================================
+   CEO CARD (Marco) — Gold treatment
+   ========================================================= */
+
+.teamCard.ceoCard {
+  background:
+    radial-gradient(900px 300px at 18% 10%, rgba(184,154,61,0.22), transparent 62%),
+    radial-gradient(700px 260px at 85% 30%, rgba(17,19,21,0.06), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.78));
+  border: 1px solid rgba(184,154,61,0.38);
+  box-shadow:
+    0 0 0 1px rgba(184,154,61,0.22),
+    0 18px 55px rgba(184,154,61,0.18),
+    0 18px 50px rgba(17,19,21,0.06);
+}
+
+/* Make the left gold rail a touch stronger on CEO card */
+.teamCard.ceoCard::before {
+  width: 3px;
+  opacity: 1;
+}
+
+/* Slightly “richer” name + title */
+.teamCard.ceoCard .card-title {
+  color: rgba(0,0,0,0.92);
+  opacity: 1;
+}
+
+.teamCard.ceoCard .small {
+  color: rgba(168,134,47,0.92);
+  font-weight: 650;
+}
+
+/* Optional: make the avatar ring more premium on CEO */
+.teamCard.ceoCard .teamAvatar {
+  background: radial-gradient(circle at 30% 30%, rgba(184,154,61,0.40), rgba(184,154,61,0.10));
+  border: 1px solid rgba(184,154,61,0.45);
+  box-shadow: 0 12px 22px rgba(184,154,61,0.16);
+}
 
 .connection-card.ceo {
   background: linear-gradient(
@@ -1517,4 +1556,31 @@ button:disabled {
   .brand {
     gap: 0 !important;
   }
+}
+.teamAvatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  overflow: hidden;
+  flex: 0 0 auto;
+  position: relative;
+  background: rgba(0,0,0,0.04);
+}
+
+.teamAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatarPlaceholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(
+    135deg,
+    rgba(184,154,61,0.08),
+    rgba(0,0,0,0.04)
+  );
 }

@@ -57,7 +57,7 @@ export default function Navbar() {
           {/* Brand */}
           <Link to="/" className="brand" aria-label="Advanced Civil Solutions Home">
             <img
-              src="/Logo.webp"
+              src="/Logo.svg"
               alt="Advanced Civil Solutions"
               className="brand-logo"
               loading="eager"
