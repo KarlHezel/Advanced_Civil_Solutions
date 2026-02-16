@@ -71,6 +71,22 @@ function sanitize(v) {
   return String(v ?? "").trim();
 }
 
+// Minimal email sanity check (avoid being overly strict)
+function isValidEmail(email) {
+  const e = String(email || "").trim();
+  if (e.length > 254) return false;
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 /**
  * Decide which shared mailbox to use.
  * - Default: Sales (sales-to-sales)
@@ -94,6 +110,44 @@ function chooseMailbox(env, payload) {
 
   // Default to sales
   return { mailbox: salesMailbox, route: "sales" };
+}
+
+function buildConfirmationHtml({ name }) {
+  const safeName = sanitize(name).slice(0, 80);
+  const greeting = safeName
+    ? `Thank you, <strong>${escapeHtml(safeName)}</strong>.`
+    : `Thank you for contacting <strong>Advanced Civil Solutions</strong>.`;
+
+  return `
+  <div style="font-family: 'Source Serif 4', Georgia, serif; background:#f7f7f5; padding:40px;">
+    <div style="max-width:600px; margin:0 auto; background:#ffffff; padding:40px; border-radius:12px; border:1px solid #e6e2d6;">
+      <h2 style="margin:0 0 14px 0; color:#000000; font-weight:600;">Inquiry Received</h2>
+
+      <p style="color:#000000; line-height:1.6; margin:0 0 14px 0;">
+        ${greeting}
+      </p>
+
+      <p style="color:#000000; line-height:1.6; margin:0 0 14px 0;">
+        Your inquiry has been received and is currently under review.
+        A member of our team will respond within one business day.
+      </p>
+
+      <p style="color:#000000; line-height:1.6; margin:0;">
+        If your request is time-sensitive, you may reply directly to this email.
+      </p>
+
+      <hr style="margin:26px 0; border:none; border-top:1px solid #e6e2d6;" />
+
+      <p style="font-size:14px; color:#4b5563; margin:0;">
+        Advanced Civil Solutions, LLC<br/>
+        Federal Contracting Advisory &amp; Strategy<br/>
+        CAGE: 0Q564<br/>
+        <a href="https://advancedcivilsolutionsllc.com" style="color:#b89a3d; text-decoration:none;">
+          https://advancedcivilsolutionsllc.com
+        </a>
+      </p>
+    </div>
+  </div>`;
 }
 
 export async function onRequestOptions({ request }) {
@@ -140,6 +194,10 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: false, error: "Missing required fields" }, 400, cHeaders);
   }
 
+  if (!isValidEmail(email)) {
+    return json({ ok: false, error: "Invalid email format" }, 400, cHeaders);
+  }
+
   // Choose which shared mailbox we’re sending *as* and *to*
   const { mailbox: targetMailbox, route } = chooseMailbox(env, payload);
 
@@ -168,7 +226,8 @@ ${comment}
       targetMailbox
     )}/sendMail`;
 
-    const graphRes = await fetch(sendMailUrl, {
+    // 1) INTERNAL: Route-to mailbox (sales-to-sales pattern)
+    const internalRes = await fetch(sendMailUrl, {
       method: "POST",
       headers: {
         authorization: `Bearer ${token}`,
@@ -182,26 +241,81 @@ ${comment}
           // Route-to mailbox (sales-to-sales pattern)
           toRecipients: [{ emailAddress: { address: targetMailbox } }],
 
-          // Replies go back to the website visitor
+          // Replies go back to the website visitor (internal thread convenience)
           replyTo: [{ emailAddress: { address: email, name } }],
         },
         saveToSentItems: true,
       }),
     });
 
-    if (!graphRes.ok) {
-      const errText = await graphRes.text();
+    if (!internalRes.ok) {
+      const errText = await internalRes.text();
+      console.log("Graph sendMail (internal) failed", {
+        status: internalRes.status,
+        targetMailbox,
+        errText,
+      });
+      return json(
+        { ok: false, error: "Graph sendMail failed", details: errText },
+        502,
+        cHeaders
+      );
+    }
 
-      // Helpful for Cloudflare logs:
-      console.log("Graph sendMail failed", {
-        status: graphRes.status,
+    // 2) EXTERNAL: Confirmation email to the visitor (only after internal succeeds)
+    const confirmSubject = "Inquiry Received – Advanced Civil Solutions";
+    const confirmHtml = buildConfirmationHtml({ name });
+
+    const confirmRes = await fetch(sendMailUrl, {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        message: {
+          subject: confirmSubject,
+          body: { contentType: "HTML", content: confirmHtml },
+
+          // Send to the visitor
+          toRecipients: [{ emailAddress: { address: email, name } }],
+
+          // If they reply to the confirmation, it goes to Sales/shared mailbox
+          replyTo: [
+            {
+              emailAddress: {
+                address: targetMailbox,
+                name: "Advanced Civil Solutions, LLC",
+              },
+            },
+          ],
+        },
+        saveToSentItems: true,
+      }),
+    });
+
+    if (!confirmRes.ok) {
+      // Don't fail the whole request; internal already succeeded.
+      const errText = await confirmRes.text();
+      console.log("Graph sendMail (confirmation) failed", {
+        status: confirmRes.status,
         targetMailbox,
         errText,
       });
 
       return json(
-        { ok: false, error: "Graph sendMail failed", details: errText },
-        502,
+        {
+          ok: true,
+          status: 200,
+          data: {
+            message:
+              "Request received. Team has been notified. (Confirmation email could not be sent.)",
+            route,
+            sentTo: targetMailbox,
+            confirmationSent: false,
+          },
+        },
+        200,
         cHeaders
       );
     }
@@ -214,6 +328,7 @@ ${comment}
           message: "Request received. Team has been notified.",
           route,
           sentTo: targetMailbox,
+          confirmationSent: true,
         },
       },
       200,
@@ -221,6 +336,10 @@ ${comment}
     );
   } catch (e) {
     console.log("Mailer error", { message: e?.message, targetMailbox });
-    return json({ ok: false, error: e?.message || "Server error" }, 500, cHeaders);
+    return json(
+      { ok: false, error: e?.message || "Server error" },
+      500,
+      cHeaders
+    );
   }
 }
