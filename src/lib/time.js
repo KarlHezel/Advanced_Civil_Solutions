@@ -1,3 +1,5 @@
+// src/lib/time.js
+
 export function getLocalTimeZone() {
   return Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York";
 }

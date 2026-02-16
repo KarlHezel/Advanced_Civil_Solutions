@@ -164,8 +164,8 @@ export default function Home() {
                 <div className="stack">
                   <div className="card-title">Consulting &amp; Training</div>
                   <p className="card-body">
-                    We teach teams how to enter federal contracting, navigate SAM/JCP/DIBBS,
-                    and build the processes needed to win and manage contracts.
+                    We help teams enter and succeed in federal contracting.
+                    This includes SAM.gov registration, DIBBS access, JCP certification for controlled technical documents (C-Folders), and building the processes needed to win and manage government contracts.
                   </p>
                 </div>
               </Card>

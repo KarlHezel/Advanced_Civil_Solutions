@@ -1,17 +1,23 @@
-// Backend-ready stub. Replace with real endpoint + auth later.
-export async function postBookDemo(payload) {
-  // Example:
-  // return fetch("/api/book-demo", { method:"POST", headers:{...}, body: JSON.stringify(payload) })
+// src/lib/api.js
 
-  // Mock success response (simulate latency)
-  await new Promise((r) => setTimeout(r, 450));
+export async function postBookDemo(payload) {
+  const res = await fetch("/api/book-demo", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  let data = null;
+  try {
+    data = await res.json();
+  } catch {
+    // ignore
+  }
 
   return {
-    ok: true,
-    status: 200,
-    data: {
-      message: "Confirmation queued (mock).",
-      bookingId: `ACS-${Math.random().toString(16).slice(2, 10).toUpperCase()}`,
-    },
+    ok: res.ok && data?.ok !== false,
+    status: res.status,
+    data: data?.data || data,
+    error: data?.error,
   };
 }
