@@ -10,20 +10,30 @@ function json(data, status = 200, extraHeaders = {}) {
   });
 }
 
-// Optional: lock CORS to your domains (recommended).
+// Lock CORS to trusted frontends
 const ALLOWED_ORIGINS = new Set([
+  // local dev
   "http://localhost:5173",
   "http://localhost:3000",
-  // "https://advancedcivilsolutionsllc.com",
-  // "https://ask-acs.com",
+
+  // prod domains
+  "https://advancedcivilsolutionsllc.com",
+  "https://www.advancedcivilsolutionsllc.com",
+  "https://ask-acs.com",
+  "https://www.ask-acs.com",
+
+  // Cloudflare Pages default domain (exact)
+  "https://advanced-civil-solutions.pages.dev",
 ]);
 
 function corsHeaders(origin) {
+  // Only set CORS headers when origin is allowed
   if (!origin || !ALLOWED_ORIGINS.has(origin)) return {};
   return {
     "access-control-allow-origin": origin,
     "access-control-allow-methods": "POST, OPTIONS",
     "access-control-allow-headers": "content-type",
+    "access-control-max-age": "86400",
   };
 }
 
@@ -52,6 +62,8 @@ async function getAccessToken(env) {
 
   const data = await res.json();
   if (!res.ok) throw new Error(`Token error: ${JSON.stringify(data)}`);
+
+  if (!data.access_token) throw new Error("Token error: missing access_token.");
   return data.access_token;
 }
 
@@ -65,20 +77,21 @@ function sanitize(v) {
  * - Future: Contact (for general inquiries)
  *
  * You can control this with:
- *   env.SALES_MAILBOX   (default sales@advancedcivilsolutionsllc.com)
- *   env.CONTACT_MAILBOX (default contact@advancedcivilsolutionsllc.com)
+ *   env.SALES_MAILBOX    (default sales@advancedcivilsolutionsllc.com)
+ *   env.CONTACT_MAILBOX  (default contact@advancedcivilsolutionsllc.com)
  *
  * And a payload field:
  *   payload.route = "sales" | "contact"   (optional)
  */
 function chooseMailbox(env, payload) {
   const salesMailbox = env.SALES_MAILBOX || "sales@advancedcivilsolutionsllc.com";
-  const contactMailbox = env.CONTACT_MAILBOX || "contact@advancedcivilsolutionsllc.com";
+  const contactMailbox =
+    env.CONTACT_MAILBOX || "contact@advancedcivilsolutionsllc.com";
 
   // Only allow known routes (prevents mailbox spoofing)
   const route = sanitize(payload?.route).toLowerCase();
-
   if (route === "contact") return { mailbox: contactMailbox, route: "contact" };
+
   // Default to sales
   return { mailbox: salesMailbox, route: "sales" };
 }
@@ -95,6 +108,8 @@ export async function onRequestPost({ request, env }) {
   const origin = request.headers.get("Origin");
   const cHeaders = corsHeaders(origin);
 
+  // Block browser origins not on the allowlist
+  // (Note: curl/Postman have no Origin header, and will still work.)
   if (origin && Object.keys(cHeaders).length === 0) {
     return json({ ok: false, error: "Origin not allowed" }, 403);
   }
@@ -106,9 +121,13 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: false, error: "Invalid JSON" }, 400, cHeaders);
   }
 
-  // Honeypot
+  // Honeypot (bots often fill this)
   if (payload?.website && String(payload.website).trim() !== "") {
-    return json({ ok: true, status: 200, data: { message: "Queued." } }, 200, cHeaders);
+    return json(
+      { ok: true, status: 200, data: { message: "Queued." } },
+      200,
+      cHeaders
+    );
   }
 
   const name = sanitize(payload?.name);
@@ -121,7 +140,7 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: false, error: "Missing required fields" }, 400, cHeaders);
   }
 
-  // ✅ Choose which shared mailbox we’re sending *as* and *to*
+  // Choose which shared mailbox we’re sending *as* and *to*
   const { mailbox: targetMailbox, route } = chooseMailbox(env, payload);
 
   const subject =
@@ -129,8 +148,7 @@ export async function onRequestPost({ request, env }) {
       ? `New website contact — ${company}`
       : `New website inquiry — ${company}`;
 
-  const bodyText =
-`New website ${route === "contact" ? "contact" : "inquiry"} received.
+  const bodyText = `New website ${route === "contact" ? "contact" : "inquiry"} received.
 
 Name: ${name}
 Company: ${company}
@@ -145,7 +163,7 @@ ${comment}
   try {
     const token = await getAccessToken(env);
 
-    // Send AS the shared mailbox (app permission or delegated w/ Send As)
+    // Send AS the shared mailbox (works with Mail.Send Application permission)
     const sendMailUrl = `https://graph.microsoft.com/v1.0/users/${encodeURIComponent(
       targetMailbox
     )}/sendMail`;
@@ -161,10 +179,10 @@ ${comment}
           subject,
           body: { contentType: "Text", content: bodyText },
 
-          // ✅ Route-to mailbox (keeps your sales-to-sales pattern)
+          // Route-to mailbox (sales-to-sales pattern)
           toRecipients: [{ emailAddress: { address: targetMailbox } }],
 
-          // ✅ Replies go back to the website visitor
+          // Replies go back to the website visitor
           replyTo: [{ emailAddress: { address: email, name } }],
         },
         saveToSentItems: true,
@@ -173,6 +191,14 @@ ${comment}
 
     if (!graphRes.ok) {
       const errText = await graphRes.text();
+
+      // Helpful for Cloudflare logs:
+      console.log("Graph sendMail failed", {
+        status: graphRes.status,
+        targetMailbox,
+        errText,
+      });
+
       return json(
         { ok: false, error: "Graph sendMail failed", details: errText },
         502,
@@ -194,6 +220,7 @@ ${comment}
       cHeaders
     );
   } catch (e) {
-    return json({ ok: false, error: e.message || "Server error" }, 500, cHeaders);
+    console.log("Mailer error", { message: e?.message, targetMailbox });
+    return json({ ok: false, error: e?.message || "Server error" }, 500, cHeaders);
   }
 }
