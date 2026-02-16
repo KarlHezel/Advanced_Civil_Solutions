@@ -87,6 +87,21 @@ function escapeHtml(str) {
     .replaceAll("'", "&#039;");
 }
 
+function generateInquiryId() {
+  const now = new Date();
+
+  const yyyy = now.getUTCFullYear();
+  const mm = String(now.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(now.getUTCDate()).padStart(2, "0");
+
+  const hh = String(now.getUTCHours()).padStart(2, "0");
+  const min = String(now.getUTCMinutes()).padStart(2, "0");
+  const ss = String(now.getUTCSeconds()).padStart(2, "0");
+
+  const rand = Math.floor(100 + Math.random() * 900); // 3-digit random
+  return `ACS-${yyyy}${mm}${dd}-${hh}${min}${ss}-${rand}`;
+}
+
 /**
  * Decide which shared mailbox to use.
  * - Default: Sales (sales-to-sales)
@@ -112,8 +127,10 @@ function chooseMailbox(env, payload) {
   return { mailbox: salesMailbox, route: "sales" };
 }
 
-function buildConfirmationHtml({ name }) {
+function buildConfirmationHtml({ name, inquiryId }) {
   const safeName = sanitize(name).slice(0, 80);
+  const safeId = sanitize(inquiryId).slice(0, 64);
+
   const greeting = safeName
     ? `Thank you, <strong>${escapeHtml(safeName)}</strong>.`
     : `Thank you for contacting <strong>Advanced Civil Solutions</strong>.`;
@@ -125,6 +142,10 @@ function buildConfirmationHtml({ name }) {
 
       <p style="color:#000000; line-height:1.6; margin:0 0 14px 0;">
         ${greeting}
+      </p>
+
+      <p style="color:#4b5563; font-size:14px; margin:0 0 14px 0;">
+        Reference ID: <strong>${escapeHtml(safeId)}</strong>
       </p>
 
       <p style="color:#000000; line-height:1.6; margin:0 0 14px 0;">
@@ -198,15 +219,19 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: false, error: "Invalid email format" }, 400, cHeaders);
   }
 
+  const inquiryId = generateInquiryId();
+
   // Choose which shared mailbox we’re sending *as* and *to*
   const { mailbox: targetMailbox, route } = chooseMailbox(env, payload);
 
   const subject =
     route === "contact"
-      ? `New website contact — ${company}`
-      : `New website inquiry — ${company}`;
+      ? `New website contact — ${company} — ${inquiryId}`
+      : `New website inquiry — ${company} — ${inquiryId}`;
 
-  const bodyText = `New website ${route === "contact" ? "contact" : "inquiry"} received.
+  const bodyText = `Inquiry ID: ${inquiryId}
+
+New website ${route === "contact" ? "contact" : "inquiry"} received.
 
 Name: ${name}
 Company: ${company}
@@ -262,9 +287,9 @@ ${comment}
       );
     }
 
-    // 2) EXTERNAL: Confirmation email to the visitor (only after internal succeeds)
-    const confirmSubject = "Inquiry Received – Advanced Civil Solutions";
-    const confirmHtml = buildConfirmationHtml({ name });
+    // 2) EXTERNAL: Confirmation email to the visitor
+    const confirmSubject = `Inquiry Received – ${inquiryId}`;
+    const confirmHtml = buildConfirmationHtml({ name, inquiryId });
 
     const confirmRes = await fetch(sendMailUrl, {
       method: "POST",
@@ -277,7 +302,6 @@ ${comment}
           subject: confirmSubject,
           body: { contentType: "HTML", content: confirmHtml },
 
-          // Send to the visitor
           toRecipients: [{ emailAddress: { address: email, name } }],
 
           // If they reply to the confirmation, it goes to Sales/shared mailbox
@@ -285,7 +309,7 @@ ${comment}
             {
               emailAddress: {
                 address: targetMailbox,
-                name: "Advanced Civil Solutions, LLC",
+                name: "Advanced Civil Solutions, LLC – Sales",
               },
             },
           ],
@@ -295,7 +319,6 @@ ${comment}
     });
 
     if (!confirmRes.ok) {
-      // Don't fail the whole request; internal already succeeded.
       const errText = await confirmRes.text();
       console.log("Graph sendMail (confirmation) failed", {
         status: confirmRes.status,
@@ -313,6 +336,7 @@ ${comment}
             route,
             sentTo: targetMailbox,
             confirmationSent: false,
+            inquiryId,
           },
         },
         200,
@@ -329,6 +353,7 @@ ${comment}
           route,
           sentTo: targetMailbox,
           confirmationSent: true,
+          inquiryId,
         },
       },
       200,
