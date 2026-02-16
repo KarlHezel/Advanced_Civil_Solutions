@@ -80,6 +80,11 @@ export default function DemoBookingForm({ mode = "consultation" }) {
           "Request received. We’ll review your notes and follow up to confirm fit and next steps.",
         bookingId: null,
       });
+
+      // ✅ CLEAR FORM FIELDS
+      setValues(initialValues);
+      setErrors({});
+
       return;
     }
 
@@ -117,7 +122,7 @@ export default function DemoBookingForm({ mode = "consultation" }) {
         saveSubmission(payload);
       }
 
-      // Mock API call (replace with real endpoint later)
+      // API call
       const res = await postBookDemo(payload);
       if (!res?.ok) throw new Error("Submit failed");
 
@@ -127,6 +132,10 @@ export default function DemoBookingForm({ mode = "consultation" }) {
           "Request received. We’ll review your notes and follow up to confirm fit and next steps.",
         bookingId: res?.data?.bookingId || null,
       });
+
+      // ✅ CLEAR FORM FIELDS AFTER SUCCESS
+      setValues(initialValues);
+      setErrors({});
     } catch (err) {
       setStatus({
         type: "error",
@@ -168,6 +177,7 @@ export default function DemoBookingForm({ mode = "consultation" }) {
               placeholder="Your name"
               onChange={(e) => setField("name", e.target.value)}
               autoComplete="name"
+              disabled={submitting}
             />
           </FormField>
 
@@ -179,6 +189,7 @@ export default function DemoBookingForm({ mode = "consultation" }) {
               placeholder="Organization or team"
               onChange={(e) => setField("company", e.target.value)}
               autoComplete="organization"
+              disabled={submitting}
             />
           </FormField>
         </div>
@@ -192,6 +203,7 @@ export default function DemoBookingForm({ mode = "consultation" }) {
               placeholder="name@company.com"
               onChange={(e) => setField("email", e.target.value)}
               autoComplete="email"
+              disabled={submitting}
             />
           </FormField>
 
@@ -203,6 +215,7 @@ export default function DemoBookingForm({ mode = "consultation" }) {
               placeholder="(555) 555-5555"
               onChange={(e) => setField("phone", e.target.value)}
               autoComplete="tel"
+              disabled={submitting}
             />
           </FormField>
         </div>
@@ -215,6 +228,7 @@ export default function DemoBookingForm({ mode = "consultation" }) {
           value={values.comment}
           placeholder="Briefly describe your objective, timeline, and constraints."
           onChange={(e) => setField("comment", e.target.value)}
+          disabled={submitting}
         />
       </FormField>
 
@@ -231,8 +245,11 @@ export default function DemoBookingForm({ mode = "consultation" }) {
 
       {/* Consent line */}
       <div className="small" style={{ marginTop: 12, opacity: 0.85 }}>
-        By submitting this form, you agree to our{" "} 
-        <Link className="policy-link" to="/privacy">Privacy Policy</Link>.
+        By submitting this form, you agree to our{" "}
+        <Link className="policy-link" to="/privacy">
+          Privacy Policy
+        </Link>
+        .
       </div>
 
       {/* Status */}
