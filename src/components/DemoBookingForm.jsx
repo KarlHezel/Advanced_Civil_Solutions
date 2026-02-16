@@ -231,7 +231,8 @@ export default function DemoBookingForm({ mode = "consultation" }) {
 
       {/* Consent line */}
       <div className="small" style={{ marginTop: 12, opacity: 0.85 }}>
-        By submitting this form, you agree to our <Link to="/privacy">Privacy Policy</Link>.
+        By submitting this form, you agree to our{" "} 
+        <Link className="policy-link" to="/privacy">Privacy Policy</Link>.
       </div>
 
       {/* Status */}

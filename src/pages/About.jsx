@@ -91,8 +91,22 @@ export default function About() {
       avatar: "/Karl.svg",
     },
     {
+      name: "Adam Civil",
+      title: "Chief Revenue Officer (CRO)",
+      summary:
+        "Leads revenue strategy, pipeline development, and customer growth across federal and commercial engagements.",
+      focus: [
+        "Revenue strategy & forecasting",
+        "Pipeline development & qualification",
+        "Customer acquisition & retention"
+      ],
+      approach: "Disciplined growth with measurable targets",
+      operatingStyle: "Strategic, accountable, performance-driven",
+      roleKey: "cro",
+    },
+    {
       name: "Lenny DelDuca",
-      title: "Sales",
+      title: "Government Contracting Specialist • Client Development",
       summary:
         "Supports opportunity development and customer coordination to keep the pipeline aligned with capabilities.",
       focus: ["Opportunity intake", "Customer coordination", "Bid support"],
@@ -102,7 +116,7 @@ export default function About() {
     },
     {
       name: "Gabe Hernandez",
-      title: "Sales",
+      title: "Government Contracting Specialist • Client Development",
       summary:
         "Builds relationships and helps qualify opportunities so delivery expectations stay realistic and clear.",
       focus: ["Lead qualification", "Partner outreach", "Customer alignment"],
@@ -111,18 +125,8 @@ export default function About() {
       roleKey: "sales",
     },
     {
-      name: "Adam Civil",
-      title: "Sales",
-      summary:
-        "Drives customer communication and supports proposals to keep opportunities moving without confusion.",
-      focus: ["Proposal support", "Follow-through", "Customer updates"],
-      approach: "Simple messaging, steady progress",
-      operatingStyle: "Reliable, low-friction",
-      roleKey: "sales",
-    },
-    {
       name: "Sancaina Senelus",
-      title: "Sales",
+      title: "Government Contracting Specialist • Client Development",
       summary:
         "Supports outreach, scheduling, and customer readiness so the team can execute quickly when it matters.",
       focus: ["Outreach", "Scheduling", "Customer readiness"],
@@ -131,6 +135,16 @@ export default function About() {
       roleKey: "sales",
     },
   ];
+
+  // ✅ Official identifiers (from your partner)
+  const REG = {
+    legalName: "Advanced Civil Solutions LLC",
+    cage: "0Q564",
+    uei: "ST7BLLW7XAY6",
+    sam: "Active",
+    // If you don't want to mention JCP yet, set to "" and it won't render.
+    jcp: "Joint Certification Program (JCP) Registered (DD Form 2345)",
+  };
 
   return (
     <section className="section about">
@@ -214,6 +228,44 @@ export default function About() {
                 </div>
               </div>
 
+              {/* ✅ Federal Registrations & Authorizations */}
+              <div className="summaryTable" style={{ marginTop: 14 }}>
+                <div className="summaryRow">
+                  <div className="summaryKey">Legal Entity</div>
+                  <div className="summaryVal">{REG.legalName}</div>
+                </div>
+
+                <div className="summaryRow">
+                  <div className="summaryKey">Federal Registrations</div>
+                  <div className="summaryVal">
+                    <div className="regLine">
+                      <span className="regLabel">CAGE Code:</span>{" "}
+                      <span className="regValue">{REG.cage}</span>
+                    </div>
+                    <div className="regLine">
+                      <span className="regLabel">UEI:</span>{" "}
+                      <span className="regValue">{REG.uei}</span>
+                    </div>
+                    <div className="regLine">
+                      <span className="regLabel">SAM:</span>{" "}
+                      <span className="regValue">{REG.sam}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {REG.jcp ? (
+                  <div className="summaryRow">
+                    <div className="summaryKey">Defense Authorization</div>
+                    <div className="summaryVal">
+                      {REG.jcp}
+                      <div className="small" style={{ marginTop: 6 }}>
+                        Provided upon request for controlled technical data access.
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+
               <hr className="hr-gold" />
             </div>
 
@@ -270,7 +322,7 @@ export default function About() {
             </div>
 
             {/* =========================================================
-                HOW WE OPERATE (cleaner language)
+                HOW WE OPERATE
                ========================================================= */}
             <div className="section-block scroll-focus">
               <div className="readable stack">
@@ -413,7 +465,10 @@ export default function About() {
               {/* Row 2 — CTO (left) + Sales (right) */}
               <div className="grid grid-2 scroll-focus" style={{ marginTop: 10 }}>
                 {TEAM.slice(1, 3).map((person) => (
-                  <div key={person.name} className="surface card teamCard scroll-focus">
+                  <div
+                    key={person.name}
+                    className="surface card teamCard scroll-focus"
+                  >
                     <div className="teamHeader">
                       <div className="teamAvatar">
                         {person.avatar ? (
@@ -467,7 +522,10 @@ export default function About() {
               {/* Row 3 — 3 Sales cards */}
               <div className="teamGrid scroll-focus" style={{ marginTop: 16 }}>
                 {TEAM.slice(3).map((person) => (
-                  <div key={person.name} className="surface card teamCard scroll-focus">
+                  <div
+                    key={person.name}
+                    className="surface card teamCard scroll-focus"
+                  >
                     <div className="teamHeader">
                       <div className="teamAvatar" aria-hidden="true" />
                       <div>

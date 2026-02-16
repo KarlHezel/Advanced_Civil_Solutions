@@ -2,7 +2,7 @@ import React from "react";
 import Container from "../components/Container.jsx";
 
 export default function PrivacyPolicy() {
-  const contactEmail = "contact@advancedcivilsolutionsllc.com";
+  const contactEmail = "Email: contact@advancedcivilsolutionsllc.com";
 
   return (
     <section className="section">
@@ -182,12 +182,11 @@ export default function PrivacyPolicy() {
               Contact
             </h2>
             <p className="p" style={{ marginTop: 0 }}>
-              If you have questions about this policy or would like to make a privacy request,
-              contact us at:
+              If you have questions about this Privacy Policy or would like to make a privacy request, contact:
+              <br /><br />
+              <strong>Advanced Civil Solutions LLC</strong>
               <br />
-              <strong>
-                <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
-              </strong>
+              <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
             </p>
           </div>
         </div>
