@@ -17,10 +17,6 @@ export default function App() {
       <main className="main">
         <Routes>
           <Route path="/" element={<Home />} />
-
-          {/* Redirect /lander -> / */}
-          <Route path="/lander" element={<Navigate to="/" replace />} />
-
           <Route path="/about" element={<About />} />
           <Route path="/book-consultation" element={<BookConsultation />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
