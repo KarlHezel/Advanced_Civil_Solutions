@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom"; // <-- add Navigate
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import Home from "./pages/Home.jsx";
@@ -17,10 +17,16 @@ export default function App() {
       <main className="main">
         <Routes>
           <Route path="/" element={<Home />} />
+
+          {/* Redirect /lander -> / */}
+          <Route path="/lander" element={<Navigate to="/" replace />} />
+
           <Route path="/about" element={<About />} />
           <Route path="/book-consultation" element={<BookConsultation />} />
-          <Route path="*" element={<NotFound />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
+
+          {/* Keep this last */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />
