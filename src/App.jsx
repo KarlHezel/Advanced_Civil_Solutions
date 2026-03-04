@@ -17,6 +17,7 @@ export default function App() {
       <main className="main">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/lander" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/book-consultation" element={<BookConsultation />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
