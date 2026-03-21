@@ -1,7 +1,6 @@
 // src/pages/Home.jsx
 import React, { useEffect } from "react";
 import Container from "../components/Container.jsx";
-import FadeIn from "../components/FadeIn.jsx";
 import Card from "../components/Card.jsx";
 
 export default function Home() {
@@ -61,81 +60,99 @@ export default function Home() {
   return (
     <section className="section home">
       {/* HERO */}
-      <FadeIn>
-        <div className="hero-full segment segment-hero scroll-focus">
-          <Container>
-            <div className="hero-full-inner">
-              <div className="page-frame-left">
-                <div className="readable stack">
-                  <h1 className="h1 h1-hero">
-                    <span className="hero-line hero-line-2">
-                      We help companies win and deliver government contracts.
-                    </span>
-                    <span className="hero-line hero-line-3">
-                      Built for teams that need proof, not promises.
-                    </span>
-                  </h1>
+      <div className="hero-full segment segment-hero scroll-focus hero-reveal">
+        <div className="hero-seals" aria-hidden="true">
+          <span className="hero-seal hero-seal-left" />
+          <span className="hero-seal hero-seal-right" />
+          <span className="hero-seal hero-seal-lower" />
+        </div>
 
-                  <p className="p" style={{ maxWidth: 820 }}>
-                    We help you bid as a prime, stay compliant, and deliver on time — with
-                    clear documentation and fewer last-minute issues.
-                  </p>
+        <Container>
+          <div className="hero-full-inner">
+            <div className="page-frame-left">
+              <div className="readable stack">
+                <h1 className="h1 h1-hero">
+                  <span
+                    className="hero-line hero-line-2 reveal-item"
+                    style={{ "--reveal-delay": "40ms" }}
+                  >
+                    We help companies win and deliver government contracts.
+                  </span>
+                  <span
+                    className="hero-line hero-line-3 reveal-item"
+                    style={{ "--reveal-delay": "180ms" }}
+                  >
+                    Built for teams that need proof, not promises.
+                  </span>
+                </h1>
+
+                <p className="p hero-copy" style={{ maxWidth: 820 }}>
+                  <span className="hero-copy-line reveal-item" style={{ "--reveal-delay": "320ms" }}>
+                    We help you bid as a prime, stay compliant, and deliver on time
+                  </span>
+                  <span className="hero-copy-line reveal-item" style={{ "--reveal-delay": "430ms" }}>
+                    with clear documentation and fewer last-minute issues.
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            {/* PROOF + CERT */}
+            <div>
+              <div className="section-divider" aria-hidden="true"></div>
+
+              <div className="proofStrip" aria-label="Credibility highlights">
+                <div className="proofRow">
+                  <div className="proofItem reveal-item" style={{ "--reveal-delay": "560ms" }}>
+                    <div className="statNum">1,000+</div>
+                    <div className="proofV">FEDERAL CONTRACTS SUPPORTED</div>
+                  </div>
+
+                  <div className="proofItem reveal-item" style={{ "--reveal-delay": "680ms" }}>
+                    <div className="statNum">100+</div>
+                    <div className="proofV">COMPANIES SUPPORTED</div>
+                  </div>
+
+                  <div className="proofItem reveal-item" style={{ "--reveal-delay": "800ms" }}>
+                    <div className="statNum">30+</div>
+                    <div className="proofV">YEARS OF INDUSTRY EXPERIENCE</div>
+                  </div>
                 </div>
               </div>
 
-              {/* PROOF + CERT */}
-              <div>
-                <div className="section-divider" aria-hidden="true"></div>
+              <div
+                className="cert-block reveal-item"
+                aria-label="Federal certification"
+                style={{ "--reveal-delay": "940ms" }}
+              >
+                <div className="cert-kicker">Federal Certification</div>
 
-                <div className="proofStrip" aria-label="Credibility highlights">
-                  <div className="proofRow">
-                    <div className="proofItem">
-                      <div className="statNum">1,000+</div>
-                      <div className="proofV">FEDERAL CONTRACTS SUPPORTED</div>
-                    </div>
+                <h3 className="cert-title">
+                  Service-Disabled Veteran-Owned Small Business (SDVOSB)
+                </h3>
 
-                    <div className="proofItem">
-                      <div className="statNum">100+</div>
-                      <div className="proofV">COMPANIES SUPPORTED</div>
-                    </div>
+                <p className="cert-sub">
+                  Certified by the U.S. Small Business Administration
+                </p>
 
-                    <div className="proofItem">
-                      <div className="statNum">30+</div>
-                      <div className="proofV">YEARS OF INDUSTRY EXPERIENCE</div>
-                    </div>
-                  </div>
-                </div>
+                <div id="sba-sentinel" aria-hidden="true" />
 
-                <div className="cert-block" aria-label="Federal certification">
-                  <div className="cert-kicker">Federal Certification</div>
-
-                  <h3 className="cert-title">
-                    Service-Disabled Veteran-Owned Small Business (SDVOSB)
-                  </h3>
-
-                  <p className="cert-sub">
-                    Certified by the U.S. Small Business Administration
-                  </p>
-
-                  <div id="sba-sentinel" aria-hidden="true" />
-
-                  <div className="cert-badge">
-                    <img
-                      src="/SBA.svg"
-                      alt="U.S. Small Business Administration — Service-Disabled Veteran-Owned Certified"
-                      loading="eager"
-                      fetchpriority="high"
-                      decoding="async"
-                      width="98"
-                      height="98"
-                    />
-                  </div>
+                <div className="cert-badge">
+                  <img
+                    src="/SBA.svg"
+                    alt="U.S. Small Business Administration — Service-Disabled Veteran-Owned Certified"
+                    loading="eager"
+                    fetchpriority="high"
+                    decoding="async"
+                    width="98"
+                    height="98"
+                  />
                 </div>
               </div>
             </div>
-          </Container>
-        </div>
-      </FadeIn>
+          </div>
+        </Container>
+      </div>
 
       {/* WHAT WE DO */}
       <div className="hero-full segment segment-what scroll-focus">

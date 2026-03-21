@@ -146,6 +146,43 @@ export default function About() {
     jcp: "Joint Certification Program (JCP) Registered (DD Form 2345)",
   };
 
+  const QUICK_SCAN = [
+    {
+      title: "Who we help",
+      items: [
+        "Businesses entering federal contracting",
+        "Prime contractors managing suppliers",
+        "Manufacturers and OEMs supporting government orders",
+        "Distributors and resellers delivering contract items",
+      ],
+    },
+    {
+      title: "What we handle",
+      items: [
+        "Contract requirements and delivery planning",
+        "Review-ready documentation",
+        "Compliant sourcing and supplier coordination",
+        "Execution support during delivery",
+      ],
+    },
+    {
+      title: "What clients get",
+      items: [
+        "Cleaner internal process",
+        "Better documentation and traceability",
+        "Fewer compliance issues",
+        "More confidence during delivery",
+      ],
+    },
+  ];
+
+  const ID_TILES = [
+    { label: "Legal Entity", value: REG.legalName },
+    { label: "CAGE", value: REG.cage },
+    { label: "UEI", value: REG.uei },
+    { label: "SAM", value: REG.sam },
+  ];
+
   return (
     <section className="section about">
       <SBAFloat />
@@ -165,106 +202,44 @@ export default function About() {
                 </h1>
 
                 <p className="p">
-                  Advanced Civil Solutions helps organizations win, manage, and
-                  deliver government contracts. We set up the documentation,
-                  sourcing, and delivery processes required by federal buyers—so
-                  your work stays compliant and your deliveries stay on time. If
-                  you’re new to government contracting, we help you get set up
-                  correctly before mistakes become expensive.
+                  Advanced Civil Solutions helps organizations enter, manage,
+                  and deliver government contracts. We build the documentation,
+                  sourcing, and delivery systems that keep work compliant,
+                  review-ready, and on time.
                 </p>
               </div>
 
-              <div className="about-split">
-                <div className="about-col">
-                  <div className="card-title">Who we support</div>
-                  <ul className="bullets">
-                    <li>Businesses entering federal contracting</li>
-                    <li>Prime contractors managing suppliers</li>
-                    <li>Manufacturers and OEMs supporting government orders</li>
-                    <li>Distributors and resellers delivering contract items</li>
-                  </ul>
-                </div>
-
-                <div className="about-col optional">
-                  <div className="card-title">How we help</div>
-                  <ul className="bullets">
-                    <li>
-                      Break down contract requirements into clear steps your
-                      team can follow
-                    </li>
-                    <li>
-                      Set up documentation that’s ready for government review
-                    </li>
-                    <li>
-                      Support execution during delivery so nothing falls through
-                      the cracks
-                    </li>
-                    <li>
-                      Help source parts with traceability and compliant supplier
-                      documentation
-                    </li>
-                  </ul>
-                </div>
+              <div className="about-quickGrid">
+                {QUICK_SCAN.map((card) => (
+                  <div key={card.title} className="surface card about-quickCard">
+                    <div className="card-title">{card.title}</div>
+                    <ul className="about-quickList">
+                      {card.items.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
 
-              <div className="summaryTable" style={{ marginTop: 18 }}>
-                <div className="summaryRow">
-                  <div className="summaryKey">Focus</div>
-                  <div className="summaryVal">
-                    Winning and delivering government contracts
+              <div className="about-idGrid" aria-label="Company identifiers">
+                {ID_TILES.map((tile) => (
+                  <div key={tile.label} className="surface about-idItem">
+                    <div className="about-idLabel">{tile.label}</div>
+                    <div className="about-idValue">{tile.value}</div>
                   </div>
-                </div>
-                <div className="summaryRow">
-                  <div className="summaryKey">Method</div>
-                  <div className="summaryVal">
-                    Clear processes, clean documentation, compliant sourcing
-                  </div>
-                </div>
-                <div className="summaryRow">
-                  <div className="summaryKey">Outcome</div>
-                  <div className="summaryVal">
-                    On-time delivery and fewer compliance issues
-                  </div>
-                </div>
+                ))}
               </div>
 
-              {/* ✅ Federal Registrations & Authorizations */}
-              <div className="summaryTable" style={{ marginTop: 14 }}>
-                <div className="summaryRow">
-                  <div className="summaryKey">Legal Entity</div>
-                  <div className="summaryVal">{REG.legalName}</div>
-                </div>
-
-                <div className="summaryRow">
-                  <div className="summaryKey">Federal Registrations</div>
-                  <div className="summaryVal">
-                    <div className="regLine">
-                      <span className="regLabel">CAGE Code:</span>{" "}
-                      <span className="regValue">{REG.cage}</span>
-                    </div>
-                    <div className="regLine">
-                      <span className="regLabel">UEI:</span>{" "}
-                      <span className="regValue">{REG.uei}</span>
-                    </div>
-                    <div className="regLine">
-                      <span className="regLabel">SAM:</span>{" "}
-                      <span className="regValue">{REG.sam}</span>
-                    </div>
+              {REG.jcp ? (
+                <div className="about-idNote">
+                  <div className="about-idLabel">Defense Authorization</div>
+                  <div className="about-idValue">{REG.jcp}</div>
+                  <div className="small">
+                    Provided upon request for controlled technical data access.
                   </div>
                 </div>
-
-                {REG.jcp ? (
-                  <div className="summaryRow">
-                    <div className="summaryKey">Defense Authorization</div>
-                    <div className="summaryVal">
-                      {REG.jcp}
-                      <div className="small" style={{ marginTop: 6 }}>
-                        Provided upon request for controlled technical data access.
-                      </div>
-                    </div>
-                  </div>
-                ) : null}
-              </div>
+              ) : null}
 
               <hr className="hr-gold" />
             </div>
@@ -413,7 +388,7 @@ export default function About() {
               {/* CEO — top card (gold) */}
               <div
                 className="scroll-focus"
-                style={{ maxWidth: 820, margin: "40px auto 30px auto" }}
+                style={{ maxWidth: 780, margin: "28px auto 22px auto" }}
               >
                 <div className="surface card teamCard ceoCard scroll-focus">
                   <div className="teamHeader" style={{ justifyContent: "center" }}>
