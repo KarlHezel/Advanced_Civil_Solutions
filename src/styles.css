@@ -924,15 +924,54 @@ button:disabled {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   align-items: stretch;
+  margin-inline: auto;
 }
+.teamLeadershipGrid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+  max-width: 920px;
+  margin-inline: auto;
+}
+@media (max-width: 980px){ .teamLeadershipGrid{ grid-template-columns: 1fr; } }
+@media (max-width: 640px){ .teamLeadershipGrid{ grid-template-columns: 1fr; } }
 @media (max-width: 980px){ .teamGrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px){ .teamGrid{ grid-template-columns: 1fr; } }
 
-.teamHeader{ display:flex; align-items:center; gap: 12px; }
+.teamHeader{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap: 12px;
+  text-align: left;
+}
 
 
-.teamCard{ height: 100%; display:flex; flex-direction: column; }
+.teamCard{
+  height: 100%;
+  display:flex;
+  flex-direction: column;
+  text-align: left;
+}
+.teamCard .card-body,
+.teamCard .small { text-align: left; }
+.teamCard .bullets {
+  margin: 0;
+  padding-left: 18px;
+  list-style-position: outside;
+  display: grid;
+  gap: 6px;
+  text-align: left;
+}
 .teamCard .cred-strip{ margin-top: auto; }
+.teamCard .cred-strip,
+.teamCard .cred-item { justify-items: start; }
+.teamCard .cred-item {
+  grid-template-columns: 1fr;
+  gap: 6px;
+  text-align: left;
+}
 .teamCard .card-title { font-size: 16px; opacity: 0.9; }
 
 /* =========================================================

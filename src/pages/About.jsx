@@ -76,21 +76,6 @@ export default function About() {
       avatar: "/Marco.svg",
     },
     {
-      name: "Karl Hezel",
-      title: "Chief Technology Officer (CTO)",
-      summary:
-        "Leads technical execution and delivery systems to keep work review-ready and stable under constraints.",
-      focus: [
-        "Technical delivery planning",
-        "Systems & process design",
-        "Risk reduction through structure",
-      ],
-      approach: "Simple systems that scale",
-      operatingStyle: "Structured, detail-aware",
-      roleKey: "cto",
-      avatar: "/Karl.svg",
-    },
-    {
       name: "Adam Civil",
       title: "Chief Revenue Officer (CRO)",
       summary:
@@ -182,6 +167,68 @@ export default function About() {
     { label: "UEI", value: REG.uei },
     { label: "SAM", value: REG.sam },
   ];
+
+  const primaryExecutive =
+    TEAM.find((person) => person.roleKey === "ceo") ?? TEAM[0];
+  const leadershipTeam = TEAM.filter((person) => person.roleKey !== "sales");
+  const specialistTeam = TEAM.filter((person) => person.roleKey === "sales");
+
+  const renderTeamCard = (
+    person,
+    { blankAvatar = false, featured = false, eagerAvatar = false } = {}
+  ) => (
+    <div
+      key={person.name}
+      className={`surface card teamCard scroll-focus${featured ? " ceoCard" : ""}`}
+    >
+      <div className="teamHeader">
+        <div className="teamAvatar" aria-hidden={blankAvatar || undefined}>
+          {person.avatar ? (
+            <img
+              src={person.avatar}
+              alt={`${person.name} headshot`}
+              loading={eagerAvatar ? "eager" : "lazy"}
+              decoding="async"
+            />
+          ) : blankAvatar ? null : (
+            <div className="avatarPlaceholder" />
+          )}
+        </div>
+
+        <div>
+          <div className="card-title" style={{ marginBottom: 4 }}>
+            {person.name}
+          </div>
+          <div className="small">{person.title}</div>
+        </div>
+      </div>
+
+      <p className="card-body" style={{ marginTop: 12 }}>
+        {person.summary}
+      </p>
+
+      <hr className="hr-gold" />
+
+      <Card title="Focus areas">
+        <ul className="bullets">
+          {person.focus.map((focusItem) => (
+            <li key={focusItem}>{focusItem}</li>
+          ))}
+        </ul>
+      </Card>
+
+      <div className="cred-strip" style={{ marginTop: 12 }}>
+        <div className="cred-item">
+          <div className="cred-k">Approach</div>
+          <div className="cred-v">{person.approach}</div>
+        </div>
+        <div className="cred-item">
+          <div className="cred-k">Operating style</div>
+          <div className="cred-v">{person.operatingStyle}</div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <section className="section about">
@@ -385,159 +432,27 @@ export default function About() {
                 </p>
               </div>
 
-              {/* CEO — top card (gold) */}
-              <div
-                className="scroll-focus"
-                style={{ maxWidth: 780, margin: "28px auto 22px auto" }}
-              >
-                <div className="surface card teamCard ceoCard scroll-focus">
-                  <div className="teamHeader" style={{ justifyContent: "center" }}>
-                    <div className="teamAvatar">
-                      {TEAM[0].avatar ? (
-                        <img
-                          src={TEAM[0].avatar}
-                          alt={`${TEAM[0].name} headshot`}
-                          loading="eager"
-                          decoding="async"
-                        />
-                      ) : null}
-                    </div>
-                    <div style={{ textAlign: "left" }}>
-                      <div className="card-title" style={{ marginBottom: 4 }}>
-                        {TEAM[0].name}
-                      </div>
-                      <div className="small">{TEAM[0].title}</div>
-                    </div>
-                  </div>
-
-                  <p className="card-body" style={{ marginTop: 14 }}>
-                    {TEAM[0].summary}
-                  </p>
-
-                  <hr className="hr-gold" />
-
-                  <Card title="Focus areas">
-                    <ul className="bullets">
-                      {TEAM[0].focus.map((f) => (
-                        <li key={f}>{f}</li>
-                      ))}
-                    </ul>
-                  </Card>
-
-                  <div className="cred-strip" style={{ marginTop: 12 }}>
-                    <div className="cred-item">
-                      <div className="cred-k">Approach</div>
-                      <div className="cred-v">{TEAM[0].approach}</div>
-                    </div>
-                    <div className="cred-item">
-                      <div className="cred-k">Operating style</div>
-                      <div className="cred-v">{TEAM[0].operatingStyle}</div>
-                    </div>
-                  </div>
+              {leadershipTeam.length ? (
+                <div
+                  className="teamLeadershipGrid scroll-focus"
+                  style={{ marginTop: 28 }}
+                >
+                  {leadershipTeam.map((person) =>
+                    renderTeamCard(person, {
+                      featured: person === primaryExecutive,
+                      eagerAvatar: person === primaryExecutive,
+                    })
+                  )}
                 </div>
-              </div>
+              ) : null}
 
-              {/* Row 2 — CTO (left) + Sales (right) */}
-              <div className="grid grid-2 scroll-focus" style={{ marginTop: 10 }}>
-                {TEAM.slice(1, 3).map((person) => (
-                  <div
-                    key={person.name}
-                    className="surface card teamCard scroll-focus"
-                  >
-                    <div className="teamHeader">
-                      <div className="teamAvatar">
-                        {person.avatar ? (
-                          <img
-                            src={person.avatar}
-                            alt={`${person.name} headshot`}
-                            loading="lazy"
-                            decoding="async"
-                          />
-                        ) : (
-                          <div className="avatarPlaceholder" />
-                        )}
-                      </div>
-
-                      <div>
-                        <div className="card-title" style={{ marginBottom: 4 }}>
-                          {person.name}
-                        </div>
-                        <div className="small">{person.title}</div>
-                      </div>
-                    </div>
-
-                    <p className="card-body" style={{ marginTop: 12 }}>
-                      {person.summary}
-                    </p>
-
-                    <hr className="hr-gold" />
-
-                    <Card title="Focus areas">
-                      <ul className="bullets">
-                        {person.focus.map((f) => (
-                          <li key={f}>{f}</li>
-                        ))}
-                      </ul>
-                    </Card>
-
-                    <div className="cred-strip" style={{ marginTop: 12 }}>
-                      <div className="cred-item">
-                        <div className="cred-k">Approach</div>
-                        <div className="cred-v">{person.approach}</div>
-                      </div>
-                      <div className="cred-item">
-                        <div className="cred-k">Operating style</div>
-                        <div className="cred-v">{person.operatingStyle}</div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Row 3 — 3 Sales cards */}
-              <div className="teamGrid scroll-focus" style={{ marginTop: 16 }}>
-                {TEAM.slice(3).map((person) => (
-                  <div
-                    key={person.name}
-                    className="surface card teamCard scroll-focus"
-                  >
-                    <div className="teamHeader">
-                      <div className="teamAvatar" aria-hidden="true" />
-                      <div>
-                        <div className="card-title" style={{ marginBottom: 4 }}>
-                          {person.name}
-                        </div>
-                        <div className="small">{person.title}</div>
-                      </div>
-                    </div>
-
-                    <p className="card-body" style={{ marginTop: 12 }}>
-                      {person.summary}
-                    </p>
-
-                    <hr className="hr-gold" />
-
-                    <Card title="Focus areas">
-                      <ul className="bullets">
-                        {person.focus.map((f) => (
-                          <li key={f}>{f}</li>
-                        ))}
-                      </ul>
-                    </Card>
-
-                    <div className="cred-strip" style={{ marginTop: 12 }}>
-                      <div className="cred-item">
-                        <div className="cred-k">Approach</div>
-                        <div className="cred-v">{person.approach}</div>
-                      </div>
-                      <div className="cred-item">
-                        <div className="cred-k">Operating style</div>
-                        <div className="cred-v">{person.operatingStyle}</div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              {specialistTeam.length ? (
+                <div className="teamGrid scroll-focus" style={{ marginTop: 16 }}>
+                  {specialistTeam.map((person) =>
+                    renderTeamCard(person, { blankAvatar: true })
+                  )}
+                </div>
+              ) : null}
 
               <hr className="hr-gold" />
             </div>
